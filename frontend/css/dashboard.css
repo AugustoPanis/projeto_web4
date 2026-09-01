@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .nav-link {
     border-radius: 8px;
     transition: background-color .3s ease;
@@ -8,6 +9,22 @@
 
 .card {
     border-radius: 12px;
+=======
+.nav-link{
+    border-radius: 8px;
+    transition: background-color .3s ease;
+
+}
+
+.nav-link:houver{
+    background-color: rgb(255,255,255,.15);
+
+}
+.card {
+    border: none;
+    border-radius: 12px;
+
+>>>>>>> 109c7da1b5087ccf6ffcc298b175e6d3f6f66044
 }
 
 .card h2{
