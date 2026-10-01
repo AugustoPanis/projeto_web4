@@ -1,4 +1,4 @@
-const Barbershop = require("../models/barbershopModels");
+// const Barbershop = require("../models/barbershopModels");
 
 const create = async (data) => {
     const barbershop = new Barbershop(data);
