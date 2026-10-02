@@ -1,40 +1,30 @@
 import { api } from '../services/api.js';
-import { loginView } from '../views/loginView.js';
+import { LoginView } from '../views/loginView.js';
 
 export const loginController = {
-  async init() {
-    this.bindEvents();
-    await this.loadUsers();
+  view: new LoginView(),
+
+  init() {
+    this.view.render();     
+    this.bindEvents();  
   },
 
   bindEvents() {
-    loginView.elements.form.addEventListener('submit', (e) => this.handleSubmit(e));
+    this.view.bindSubmit((credentials) => this.handleLogin(credentials));
   },
 
-  async loadUsers() {
+  async handleLogin(credentials) {
+    this.view.setLoading(true);
     try {
-      const users = await api.get('/users');
-      loginView.renderUsers(users);
+      const response = await api.post('/login', credentials);
+      if (response.token) {
+        localStorage.setItem('token', response.token);
+      }
+      window.location.href = '/dashboard.html';
     } catch (err) {
-      loginView.showFeedback(err.message, 'error');
-    }
-  },
-
-  async handleSubmit(event) {
-    event.preventDefault();
-    const payload = loginView.getFormData();
-
-    loginView.setLoading(true);
-
-    try {
-      await api.post('/users', payload);
-      loginView.showFeedback('Cadastrado com sucesso!', 'success');
-      loginView.resetForm();
-      await this.loadUsers(); // Atualiza a listagem
-    } catch (err) {
-      loginView.showFeedback(err.message, 'error');
+      this.view.showError(err.message || 'Credenciais inválidas');
     } finally {
-      loginView.setLoading(false);
+      this.view.setLoading(false);
     }
   }
 };

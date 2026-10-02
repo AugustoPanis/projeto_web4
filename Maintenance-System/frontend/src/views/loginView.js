@@ -1,4 +1,4 @@
-export class loginView {
+export class LoginView {
   constructor() {
     this.app = document.getElementById('app');
   }
@@ -20,26 +20,36 @@ export class loginView {
         </form>
       </main>
     `;
+
+    this.form = document.getElementById('login-form');
+    this.emailInput = document.getElementById('email');
+    this.passwordInput = document.getElementById('password');
+    this.submitBtn = document.getElementById('btn-submit');
+    this.errorEl = document.getElementById('error-message');
   }
 
-  // Métodos que a View expõe para o Controller
   bindSubmit(handler) {
-    const form = document.getElementById('login-form');
-    form.addEventListener('submit', (e) => {
+    this.form.addEventListener('submit', (e) => {
       e.preventDefault();
-      const email = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value;
+      this.clearError();
+
+      const email = this.emailInput.value.trim();
+      const password = this.passwordInput.value;
+
       handler({ email, password });
     });
   }
 
+  setLoading(isLoading) {
+    this.submitBtn.disabled = isLoading;
+    this.submitBtn.textContent = isLoading ? 'Entrando...' : 'Entrar';
+  }
+
   showError(message) {
-    const errorEl = document.getElementById('error-message');
-    errorEl.textContent = message;
+    this.errorEl.textContent = message;
   }
 
   clearError() {
-    const errorEl = document.getElementById('error-message');
-    errorEl.textContent = '';
+    this.errorEl.textContent = '';
   }
 }
