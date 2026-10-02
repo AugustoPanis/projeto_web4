@@ -40,11 +40,6 @@ export class LoginView {
     });
   }
 
-  setLoading(isLoading) {
-    this.submitBtn.disabled = isLoading;
-    this.submitBtn.textContent = isLoading ? 'Entrando...' : 'Entrar';
-  }
-
   showError(message) {
     this.errorEl.textContent = message;
   }
