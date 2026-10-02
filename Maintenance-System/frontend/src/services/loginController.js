@@ -1,12 +1,12 @@
-import { api } from '../services/api.js';
+import { authService } from './authService.js';
 import { LoginView } from '../views/loginView.js';
 
 export const loginController = {
   view: new LoginView(),
 
   init() {
-    this.view.render();     
-    this.bindEvents();  
+    this.view.render();
+    this.bindEvents();
   },
 
   bindEvents() {
@@ -15,14 +15,12 @@ export const loginController = {
 
   async handleLogin(credentials) {
     this.view.setLoading(true);
+
     try {
-      const response = await api.post('/login', credentials);
-      if (response.token) {
-        localStorage.setItem('token', response.token);
-      }
+      await authService.login(credentials);
       window.location.href = '/dashboard.html';
     } catch (err) {
-      this.view.showError(err.message || 'Credenciais inválidas');
+      this.view.showError(err.message || 'Falha na autenticação');
     } finally {
       this.view.setLoading(false);
     }

@@ -9,7 +9,9 @@ app.use(cors({
 app.use(express.json());
 
 const equipamentRoutes = require("./routes/equipamentRoutes.js");
+const authRoutes = require("./routes/authRoutes.js");
 
 app.use("/equipament", equipamentRoutes);
+app.use("/", authRoutes); // Disponibiliza o POST /login
 
 module.exports = app;
