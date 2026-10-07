@@ -1,26 +1,39 @@
-import { authService } from './authService.js';
+import { authService } from '../services/authService.js';
 import { LoginView } from '../views/loginView.js';
+import { navigate } from '../router/router.js';
 
 export const loginController = {
-  view: new LoginView(),
+
+  view: null,
 
   init() {
-    this.view.render();
+
+    this.view = new LoginView();
+
     this.bindEvents();
+
   },
 
   bindEvents() {
+
     this.view.bindSubmit((credentials) => this.handleLogin(credentials));
+
   },
 
   async handleLogin(credentials) {
-    this.view.setLoading(true);
 
     try {
-      await authService.login(credentials);
-      window.location.href = '/dashboard.html';
+
+      // await authService.login(credentials);
+
+      navigate('/dashboard');
+
     } catch (err) {
+
       this.view.showError(err.message || 'Falha na autenticação');
+
     }
+
   }
+
 };
