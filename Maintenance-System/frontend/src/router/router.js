@@ -1,7 +1,7 @@
 import { loginController } from '../controllers/loginController.js';
 
 const routes = {
-  '/frontend/': {
+  '/': {
     page: './pages/login/login.html',
     controller: loginController
   },
@@ -13,7 +13,7 @@ const routes = {
 
   '/dashboard': {
     page: './pages/dashboard/dashboard.html',
-    controller: loginController
+    controller: null
   }
 };
 
@@ -24,8 +24,10 @@ export async function router() {
     console.error('Rota não encontrada:', path);
     return;
   }
+  console.log('Rota encontrada:', path);
 
   const response = await fetch(routes[path].page);
+
   const html = await response.text();
 
   document.getElementById('app').innerHTML = html;
