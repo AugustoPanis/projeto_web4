@@ -3,7 +3,6 @@ export class LoginView {
     this.form = document.getElementById('login-form');
     this.emailInput = document.getElementById('email');
     this.passwordInput = document.getElementById('password');
-    this.submitBtn = document.getElementById('btn-submit');
     this.errorEl = document.getElementById('error-message');
   }
 
