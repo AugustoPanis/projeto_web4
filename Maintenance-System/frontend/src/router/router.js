@@ -3,19 +3,18 @@ import { loginController } from '../controllers/loginController.js';
 const routes = {
   '/': {
     page: './pages/login/login.html',
-    controller: loginController
-  },
-
-  '/login': {
-    page: './pages/login/login.html',
-    controller: loginController
+    controller: loginController,
+    public: true
   },
 
   '/dashboard': {
     page: './pages/dashboard/dashboard.html',
-    controller: null
+    controller: null,
+    public: false
   }
 };
+
+let checkingAuth = null;
 
 export async function router() {
   let path = window.location.pathname;
@@ -24,9 +23,28 @@ export async function router() {
     console.error('Rota não encontrada:', path);
     return;
   }
-  console.log('Rota encontrada:', path);
+
+  checkingAuth ??= routes[path].controller.checkAuth();
+
+
+  const user = await checkingAuth;
+
+  if (!routes[path].public && !user) {
+    navigate('/login', true);
+    return;
+  }
+
+  if (routes[path].public && user) {
+    navigate('/dashboard', true);
+    return;
+  }
 
   const response = await fetch(routes[path].page);
+
+  if (!response.ok) {
+    console.error('Erro ao carregar página:', response.status);
+    return;
+  }
 
   const html = await response.text();
 
@@ -35,7 +53,14 @@ export async function router() {
   routes[path].controller.init();
 }
 
-export function navigate(path) {
-  window.history.pushState({}, '', path);
+export function navigate(path, replace = false) {
+  if (replace) {
+    window.history.replaceState({}, '', path);
+  } else {
+    window.history.pushState({}, '', path);
+  }
+
   router();
 }
+
+window.addEventListener('popstate', router);
