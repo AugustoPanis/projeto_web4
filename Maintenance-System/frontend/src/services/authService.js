@@ -1,26 +1,66 @@
-import { api } from './api.js';
+import { auth } from './firebase.js';
+import { signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword } from 'firebase/auth'
+import { onAuthStateChanged } from 'firebase/auth';
 
 export const authService = {
-  async login(credentials) {
 
-    const data = await api.post('/login', credentials);
-    
-    if (data.token) {
-      localStorage.setItem('token', data.token);
-    }
-    return data;
+  async singUp(credentials) {
+    const { email, password } = credentials;
+
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+
+    return userCredential.user;
   },
 
-  logout() {
-    localStorage.removeItem('token');
-    window.location.href = '/index.html';
+  async singIn(credentials) {
+    const { email, password } = credentials;
+
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+
+    const token = await userCredential.user.getIdToken();
+
+    return {
+      token,
+      user: {
+        uid: userCredential.user.uid,
+        email: userCredential.user.email
+      }
+    };
+  },
+
+  async logout() {
+    await signOut(auth);
   },
 
   isAuthenticated() {
-    return Boolean(localStorage.getItem('token'));
+    return Boolean(auth.currentUser);
   },
 
-  getToken() {
-    return localStorage.getItem('token');
+  async getToken() {
+    const user = auth.currentUser;
+
+    if (!user) {
+      return null;
+    }
+    return await user.getIdToken();
+  },
+
+  waitForAuth() {
+    return new Promise((resolve) => {
+      const unsubscribe = onAuthStateChanged(
+        auth, (user) => {
+          unsubscribe(); resolve(user);
+        });
+    });
+
   }
-};
+
+}
