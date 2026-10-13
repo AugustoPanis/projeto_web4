@@ -1,16 +1,19 @@
-const express = require("express");
-const cors = require("cors"); 
+import express from "express";
+import cors from "cors";
 
 const app = express();
 
 app.use(cors({
   origin: "*"
 }));
-app.use(express.json());
 
-const equipamentRoutes = require("./routes/equipamentRoutes.js");
-const authRoutes = require("./routes/authRoutes.js");
+app.use(express.json());  
+
+import equipamentRoutes from "./routes/equipamentRoutes.js";
+import clientRoutes from "./routes/clientRoutes.js";
 
 app.use("/equipament", equipamentRoutes)
-app.use("/auth", authRoutes)
-module.exports = app;
+app.use("/client", clientRoutes);
+
+
+export default app;

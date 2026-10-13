@@ -19,6 +19,4 @@ export const dashboardService = {
     const data = await api.get('/equipment/table');
     return data;
   }
-
-
 };

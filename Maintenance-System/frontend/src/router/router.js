@@ -1,4 +1,6 @@
 import { loginController } from '../controllers/loginController.js';
+import { registerController } from '../controllers/registerController.js';
+import { dashboardController } from '../controllers/dashboardController.js';
 
 const routes = {
   '/': {
@@ -6,10 +8,15 @@ const routes = {
     controller: loginController,
     public: true
   },
+    '/register': {
+    page: './pages/register/register.html',
+    controller: registerController,
+    public: true
+  },
 
   '/dashboard': {
     page: './pages/dashboard/dashboard.html',
-    controller: null,
+    controller: dashboardController,
     public: false
   }
 };
@@ -26,30 +33,22 @@ export async function router() {
 
   checkingAuth ??= routes[path].controller.checkAuth();
 
-
   const user = await checkingAuth;
 
-  if (!routes[path].public && !user) {
-    navigate('/login', true);
-    return;
-  }
+  // if (!routes[path].public && !user) {
+  //   navigate('/login', true);
+  //   return;
+  // }
 
-  if (routes[path].public && user) {
-    navigate('/dashboard', true);
-    return;
-  }
+  // if (routes[path].public && user) {
+  //   navigate('/dashboard', true);
+  //   return;
+  // }
 
   const response = await fetch(routes[path].page);
-
-  if (!response.ok) {
-    console.error('Erro ao carregar página:', response.status);
-    return;
-  }
-
   const html = await response.text();
-
   document.getElementById('app').innerHTML = html;
-
+  
   routes[path].controller.init();
 }
 

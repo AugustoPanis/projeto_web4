@@ -7,7 +7,7 @@ export class LoginView {
     this.btnSingUp = document.getElementById('btn-singUp');
   }
 
-  bindSignIn(handler) {
+  bindSignIn(credentials) {
     this.btnSingIn.addEventListener('click', (execute) => {
       execute.preventDefault();
       this.clearError();
@@ -15,7 +15,7 @@ export class LoginView {
       const email = this.emailInput.value.trim();
       const password = this.passwordInput.value;
 
-      handler({ email, password });
+      credentials({ email, password });
     });
   }
 

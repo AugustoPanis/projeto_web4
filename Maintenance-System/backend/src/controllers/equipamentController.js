@@ -1,4 +1,4 @@
-const barbershopService = require("../services/barbershopService");
+import barbershopService from "../services/barbershopService.js";
 
 
 const createEquipament = async (req, res) => {
@@ -58,7 +58,7 @@ const deleteEquipament = async (req, res) => {
 
 };
 
-module.exports = {
+export default {
   getAll,
   createBarbershop: createEquipament,
   getId,

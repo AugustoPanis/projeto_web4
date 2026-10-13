@@ -1,8 +1,8 @@
-const express = require("express");
+import express from "express";
 
 const router = express.Router();
 
-const equipamentController = require("../controllers/equipamentController");
+import equipamentController from "../controllers/equipamentController.js";
 
 router.get("/", equipamentController.getAll);
 
@@ -14,4 +14,4 @@ router.put("/:id", equipamentController.updateBarbershop);
 
 router.delete("/:id", equipamentController.deleteBarbershop);
 
-module.exports = router;
+export default router;

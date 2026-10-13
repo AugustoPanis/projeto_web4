@@ -20,6 +20,12 @@ async function request(endpoint, options = {}) {
 
   const response = await fetch(`${BASE_URL}${endpoint}`, config);
 
+  if (!response.ok) {
+        const errorData = await response.json().catch(() => null);
+        console.error('Resposta do backend (Erro ' + response.status + '):', errorData);
+        throw new Error(errorData?.message || errorData?.error || 'Erro na requisição');
+    }
+
   const isJson = response.headers.get('content-type')?.includes('application/json');
   const data = isJson ? await response.json() : null;
 

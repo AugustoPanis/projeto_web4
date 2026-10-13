@@ -1,7 +1,7 @@
-const barbershopRepository = require("../repositories/barbershopRepository");
+import clientRepository from "../repositories/clientRepository.js";
 
 const validateEmail = async (email) => {
-    const emailExistente = await barbershopRepository.findByEmail(email);
+    const emailExistente = await clientRepository.findByEmail(email);
 
     if (emailExistente) {
         throw new Error("E-mail já cadastrado");
@@ -9,7 +9,7 @@ const validateEmail = async (email) => {
 }
 
 const validaBarbearia = async (id) => {
-    const barbershop = await barbershopRepository.getId(id);
+    const barbershop = await clientRepository.getId(id);
 
     if (!barbershop) {
         throw new Error("Barbearia não encontrada");
@@ -20,43 +20,43 @@ const validaBarbearia = async (id) => {
 
 const create = async (data) => {
     await validateEmail(data.email);
-
-    return await barbershopRepository.create(data);
+    return await clientRepository.create(data);
 };
 
 const getAll = async () => {
-    return await barbershopRepository.getAll();
+    return await clientRepository.getAll();
 }
 
 const getId = async (id) => {
-    return await barbershopRepository.getId(id);
+    return await clientRepository.getId(id);
 }
 
 const update = async (id, data) => {
     await validaBarbearia(id);
 
     if (data.email) {
-        const emailExistente = await barbershopRepository.findByEmail(data.email);
+        const emailExistente = await clientRepository.findByEmail(data.email);
         if (emailExistente && emailExistente._id.toString() !== id) {
             throw new Error("E-mail já cadastrado");
         }
     }
 
-    return await barbershopRepository.update(id, data);
+    return await clientRepository.update(id, data);
 };
 
-    const deletarBarbershop = async (id) => {
-        await validaBarbearia(id);
+const deletarBarbershop = async (id) => {
+    await validaBarbearia(id);
 
-       return await barbershopRepository.deleteBarbershop(id);
+    return await clientRepository.deleteBarbershop(id);
 
 
-    };
+};
 
-    module.exports = {
-        create,
-        getAll,
-        getId,
-        update,
-        deleteBarbershop: deletarBarbershop
-    };  
+export default {
+    create,
+    getAll,
+    getId,
+    update,
+    deletarBarbershop
+
+};

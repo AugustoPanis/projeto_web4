@@ -16,3 +16,8 @@ logs/
 # Arquivos do sistema operacional
 .DS_Store
 Thumbs.db
+
+node_modules/
+firebase-service-account.json
+*firebase-service-account.json
+.env

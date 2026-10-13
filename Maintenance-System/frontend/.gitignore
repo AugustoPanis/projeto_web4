@@ -141,3 +141,6 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+#config
+../../config/projetoweb-37006-firebase-adminsdk-fbsvc-97902c6799.json

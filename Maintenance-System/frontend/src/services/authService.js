@@ -6,29 +6,17 @@ export const authService = {
 
   async singUp(credentials) {
     const { email, password } = credentials;
-
-    const userCredential = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-
+    const userCredential = await createUserWithEmailAndPassword(auth, email,password);
     return userCredential.user;
   },
 
   async singIn(credentials) {
     const { email, password } = credentials;
 
-    const userCredential = await signInWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const token = await userCredential.user.getIdToken();
 
-    return {
-      token,
+    return {token,
       user: {
         uid: userCredential.user.uid,
         email: userCredential.user.email
@@ -46,7 +34,6 @@ export const authService = {
 
   async getToken() {
     const user = auth.currentUser;
-
     if (!user) {
       return null;
     }

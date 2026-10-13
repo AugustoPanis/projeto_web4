@@ -1,8 +1,5 @@
-const app = require("./app");
-const connectDatabase = require("./config/database");
-
-// connectDatabase();
-
+import app from "./app.js";
+  
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {

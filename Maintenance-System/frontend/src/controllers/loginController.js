@@ -15,11 +15,8 @@ export const loginController = {
   },
 
   async SingUp(credentials ) {
-    try {
-      await authService.singUp(credentials);
-    } catch (err) {
-      this.view.showError(err.message || 'Falha na autenticação');
-    }
+    navigate('/register');
+
   },
 
   async singIn(credentials) {
@@ -43,6 +40,4 @@ export const loginController = {
   async checkAuth() {
     return authService.waitForAuth();
   }
-
-
 };
