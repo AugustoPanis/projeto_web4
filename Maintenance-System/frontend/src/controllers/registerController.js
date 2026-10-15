@@ -12,17 +12,24 @@ export const registerController = {
 
   bindEvents() {
     this.view.bindSingUpClick((credentials) => this.SingUp(credentials));
+    this.view.bindSingInClick(() => this.SingIn());
+
+  },
+      async SingIn() {
+      navigate('/')
   },
 
   async SingUp(credentials) {
     try {
       await clientService.clientCreate(credentials);
       this.view.showSuccess('Cadastro realizado com sucesso!');
+      navigate('/dashboard')
       
     } catch (err) {
       this.view.showError(err.message || 'Falha na autenticação');
     }
   },
+
 
   async logout() {
     try {

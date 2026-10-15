@@ -4,11 +4,17 @@ export class RegisterView {
     this.passwordInput = document.getElementById('password');
     this.errorEl = document.getElementById('error-message');
     this.btnSingUp = document.getElementById('btn-singUp');
+    this.btnSingIn = document.getElementById('btn-singIn');
     this.name = document.getElementById('name');
     this.cpf = document.getElementById('cpf');
 
   }
-  
+    bindSingInClick(credentials) {
+    this.btnSingIn.addEventListener('click', (execute) => {
+      credentials();
+    });
+  }
+
   bindSingUpClick(handler) {
     this.btnSingUp.addEventListener('click', (execute) => {
       execute.preventDefault();

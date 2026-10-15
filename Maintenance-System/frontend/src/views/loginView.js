@@ -5,6 +5,24 @@ export class LoginView {
     this.errorEl = document.getElementById('error-message');
     this.btnSingIn = document.getElementById('btn-singIn');
     this.btnSingUp = document.getElementById('btn-singUp');
+    this.btnForgotPassword = document.getElementById('btn-forgotPassword')
+  }
+  
+    bindSingUpClick(handler) {
+    this.btnSingUp.addEventListener('click', (execute) => {
+      handler(); }   );
+  }
+
+    bindForgotPaswordClick(credentials) {
+    this.btnForgotPassword.addEventListener('click', (execute) => {
+
+      execute.preventDefault();
+      this.clearError();
+
+      const email = this.emailInput.value.trim();
+
+      credentials({ email });
+    });
   }
 
   bindSignIn(credentials) {
@@ -19,16 +37,7 @@ export class LoginView {
     });
   }
 
-  bindSingUpClick(handler) {
-    this.btnSingUp.addEventListener('click', (execute) => {
-      execute.preventDefault();
-      this.clearError();
 
-      const email = this.emailInput.value.trim();
-      const password = this.passwordInput.value;
-
-      handler({ email, password });    });
-  }
 
   showError(message) {
     this.errorEl.textContent = message;

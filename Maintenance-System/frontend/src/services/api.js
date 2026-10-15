@@ -1,7 +1,8 @@
 const BASE_URL = 'http://localhost:3000';
+import { authService } from "./authService";
 
 async function request(endpoint, options = {}) {
-  const token = localStorage.getItem('token');
+  const token = await authService.getToken();
 
   const headers = {
     'Content-Type': 'application/json',
@@ -28,13 +29,6 @@ async function request(endpoint, options = {}) {
 
   const isJson = response.headers.get('content-type')?.includes('application/json');
   const data = isJson ? await response.json() : null;
-
-  if (!response.ok) {
-    if (response.status === 401) {
-      localStorage.removeItem('token');
-    }
-    throw new Error(data?.message || `Erro na requisição: ${response.status}`);
-  }
 
   return data;
 }

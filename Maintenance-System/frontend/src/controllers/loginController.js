@@ -11,12 +11,23 @@ export const loginController = {
 
   bindEvents() {
     this.view.bindSignIn((credentials) => this.singIn(credentials));
-    this.view.bindSingUpClick((credentials) => this.SingUp(credentials));
+    this.view.bindSingUpClick(() => this.SingUp());
+    this.view.bindForgotPaswordClick((credentials) => this.forgotPassword(credentials));
+
   },
 
-  async SingUp(credentials ) {
+  async SingUp( ) {
     navigate('/register');
+  },
 
+  async forgotPassword(credentials) {
+        try {
+      await authService.forgotPassword(credentials);
+      navigate('/dashboard');
+    } catch (err) {
+      this.view.showError(err.message || 'Falha na autenticação');
+    }
+    
   },
 
   async singIn(credentials) {

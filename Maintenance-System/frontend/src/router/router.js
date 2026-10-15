@@ -3,7 +3,7 @@ import { registerController } from '../controllers/registerController.js';
 import { dashboardController } from '../controllers/dashboardController.js';
 
 const routes = {
-  '/': {
+  '/login': {
     page: './pages/login/login.html',
     controller: loginController,
     public: true
@@ -35,15 +35,15 @@ export async function router() {
 
   const user = await checkingAuth;
 
-  // if (!routes[path].public && !user) {
-  //   navigate('/login', true);
-  //   return;
-  // }
+  if (!routes[path].public && !user) {
+    navigate('/login', true);
+    return;
+  }
 
-  // if (routes[path].public && user) {
-  //   navigate('/dashboard', true);
-  //   return;
-  // }
+  if (routes[path].public && user) {
+    navigate('/dashboard', true);
+    return;
+  }
 
   const response = await fetch(routes[path].page);
   const html = await response.text();
