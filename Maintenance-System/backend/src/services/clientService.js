@@ -1,21 +1,28 @@
 import clientRepository from "../repositories/clientRepository.js";
 import { authAdmin } from '../config/firebaseAdmin.js';
+import { AppError } from "../errors/AppError.js";
+import { translateError } from "../errors/translateError.js";
 
 const existingUser = async (data) => {
-    const existingUser = await clientRepository.existingUser(data);
-
-    if (existingUser) {
-        throw new Error("CPF ou E-mail já cadastrado");
+    const existing = await clientRepository.existingUser(data);
+    if (existing) {
+        throw new AppError("CPF ou e-mail já cadastrado", {
+            statusCode: 409,
+            code: "DUPLICATE_CPF_OR_EMAIL",
+        });
     }
-}
+};
 
 const getClientById = async (id) => {
     const client = await clientRepository.getId(id);
     if (!client) {
-        throw new Error("Client não encontrado");
+        throw new AppError("Cliente não encontrado", {
+            statusCode: 404,
+            code: "CLIENT_NOT_FOUND",
+        });
     }
     return client;
-}
+};
 
 const create = async (data) => {
     await existingUser(data);
@@ -23,37 +30,48 @@ const create = async (data) => {
     let firebaseUser = null;
 
     try {
-        firebaseUser = await authAdmin.createUser({id: data.uid,email: data.email,password: data.password,name: data.name,cpf: data.cpf
+        firebaseUser = await authAdmin.createUser({
+            email: data.email,
+            password: data.password,
+            displayName: data.name
         });
-        const userToSave = { id: firebaseUser.uid, name: data.name,email: data.email,cpf: data.cpf};
+
+        const userToSave = {
+            id: firebaseUser.uid,
+            name: data.name,
+            email: data.email,
+            cpf: data.cpf
+        };
 
         return await clientRepository.create(userToSave);
+
     } catch (error) {
         if (firebaseUser?.uid) {
-            console.warn(`[Rollback] Removendo UID ${firebaseUser.uid} do Firebase...`);
-            await authAdmin.deleteUser(firebaseUser.uid).catch((delErr) => {
+            try {
+                await authAdmin.deleteUser(firebaseUser.uid);
+            } catch (delErr) {
                 console.error('Falha ao reverter usuário no Firebase:', delErr);
-            });
+            }
         }
-        throw new Error(error.message || 'Erro ao processar criação de usuário.');
+        throw translateError(error);
     }
 };
 
 const getAll = async () => {
-    return await clientRepository.getAll();
-}
-
-const getId = async (id) => {
-    return await clientRepository.getId(id);
-}
+  return await clientRepository.getAll();
+};
 
 const update = async (id, data) => {
     await getClientById(id);
 
     if (data.email) {
         const emailExistente = await clientRepository.findByEmail(data.email);
-        if (emailExistente && emailExistente._id.toString() !== id) {
-            throw new Error("E-mail já cadastrado");
+        if (emailExistente && emailExistente._id?.toString() !== id && emailExistente.id !== id) {
+            throw new AppError("E-mail já cadastrado", {
+                statusCode: 409,
+                code: "EMAIL_ALREADY_IN_USE",
+                field: "email",
+            });
         }
     }
 
@@ -62,16 +80,12 @@ const update = async (id, data) => {
 
 const deletarClient = async (id) => {
     await getClientById(id);
-
     return await clientRepository.deleteClient(id);
-
-
 };
 
 export default {
     create,
     getAll,
-    getId,
     update,
     deleteClient: deletarClient
-};  
+};

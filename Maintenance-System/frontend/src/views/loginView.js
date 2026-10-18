@@ -7,25 +7,14 @@ export class LoginView {
     this.btnSingUp = document.getElementById('btn-singUp');
     this.btnForgotPassword = document.getElementById('btn-forgotPassword')
   }
-  
-    bindSingUpClick(handler) {
+
+  bindSingUpClick(handler) {
     this.btnSingUp.addEventListener('click', (execute) => {
-      handler(); }   );
-  }
-
-    bindForgotPaswordClick(credentials) {
-    this.btnForgotPassword.addEventListener('click', (execute) => {
-
-      execute.preventDefault();
-      this.clearError();
-
-      const email = this.emailInput.value.trim();
-
-      credentials({ email });
+      handler();
     });
   }
 
-  bindSignIn(credentials) {
+    bindSignIn(handler) {
     this.btnSingIn.addEventListener('click', (execute) => {
       execute.preventDefault();
       this.clearError();
@@ -33,11 +22,20 @@ export class LoginView {
       const email = this.emailInput.value.trim();
       const password = this.passwordInput.value;
 
-      credentials({ email, password });
+      handler({ email, password });
     });
   }
 
+  bindForgotPaswordClick(handler) {
+    this.btnForgotPassword.addEventListener('click', (execute) => {
+      execute.preventDefault();
+      this.clearError();
 
+      const email = this.emailInput.value.trim();
+
+      handler({ email });
+    });
+  }
 
   showError(message) {
     this.errorEl.textContent = message;

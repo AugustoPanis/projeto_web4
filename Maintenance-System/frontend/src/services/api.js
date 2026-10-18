@@ -1,5 +1,8 @@
-const BASE_URL = 'http://localhost:3000';
 import { authService } from "./authService";
+import { ApiError } from '../errors/ApiError.js';
+
+const BASE_URL = 'http://localhost:3000';
+
 
 async function request(endpoint, options = {}) {
   const token = await authService.getToken();
@@ -10,6 +13,7 @@ async function request(endpoint, options = {}) {
     ...options.headers,
   };
 
+  
   const config = {
     ...options,
     headers,
@@ -19,13 +23,21 @@ async function request(endpoint, options = {}) {
     config.body = JSON.stringify(config.body);
   }
 
-  const response = await fetch(`${BASE_URL}${endpoint}`, config);
+  let response;
+  try {
+    response = await fetch(`${BASE_URL}${endpoint}`, config);
+  } catch {
+    throw new ApiError('Falha de conexão com o servidor', { code: 'NETWORK_ERROR' });
+  }
 
   if (!response.ok) {
-        const errorData = await response.json().catch(() => null);
-        console.error('Resposta do backend (Erro ' + response.status + '):', errorData);
-        throw new Error(errorData?.message || errorData?.error || 'Erro na requisição');
-    }
+    const errorData = await response.json().catch(() => null);
+    throw new ApiError(errorData?.message || 'Erro na requisição', {
+      status: response.status,
+      code: errorData?.code || 'UNKNOWN_ERROR',
+      field: errorData?.field,
+    });
+  }
 
   const isJson = response.headers.get('content-type')?.includes('application/json');
   const data = isJson ? await response.json() : null;

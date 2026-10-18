@@ -1,6 +1,7 @@
 import { authService } from '../services/authService.js';
 import { LoginView } from '../views/loginView.js';
 import { navigate } from '../router/router.js';
+import { getFriendlyErrorMessage } from '../utils/errorMessages.js';
 
 export const loginController = {
   view: null,
@@ -16,18 +17,18 @@ export const loginController = {
 
   },
 
-  async SingUp( ) {
+  async SingUp() {
     navigate('/register');
   },
 
   async forgotPassword(credentials) {
-        try {
+    try {
       await authService.forgotPassword(credentials);
       navigate('/dashboard');
     } catch (err) {
-      this.view.showError(err.message || 'Falha na autenticação');
+      this.view.showError(getFriendlyErrorMessage(err.code));
     }
-    
+
   },
 
   async singIn(credentials) {
@@ -35,7 +36,7 @@ export const loginController = {
       await authService.singIn(credentials);
       navigate('/dashboard');
     } catch (err) {
-      this.view.showError(err.message || 'Falha na autenticação');
+      this.view.showError(getFriendlyErrorMessage(err.code));
     }
   },
 
@@ -44,11 +45,12 @@ export const loginController = {
       await authService.logout();
       navigate('/login');
     } catch (err) {
-      console.error('Erro ao encerrar sessão:', err);
+      this.view.showError(getFriendlyErrorMessage(err.code));
     }
   },
 
   async checkAuth() {
     return authService.waitForAuth();
-  }
+  },
+
 };

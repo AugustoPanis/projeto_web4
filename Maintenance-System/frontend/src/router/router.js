@@ -8,12 +8,11 @@ const routes = {
     controller: loginController,
     public: true
   },
-    '/register': {
+  '/register': {
     page: './pages/register/register.html',
     controller: registerController,
     public: true
   },
-
   '/dashboard': {
     page: './pages/dashboard/dashboard.html',
     controller: dashboardController,
@@ -21,35 +20,32 @@ const routes = {
   }
 };
 
-let checkingAuth = null;
-
 export async function router() {
-  let path = window.location.pathname;
+  const path = window.location.pathname;
+  const route = routes[path];
 
-  if (!routes[path]) {
+  if (!route) {
     console.error('Rota não encontrada:', path);
     return;
   }
 
-  checkingAuth ??= routes[path].controller.checkAuth();
+  const user = await route.controller.checkAuth();
 
-  const user = await checkingAuth;
-
-  if (!routes[path].public && !user) {
+  if (!route.public && !user) {
     navigate('/login', true);
     return;
   }
 
-  if (routes[path].public && user) {
+  if (route.public && user) {
     navigate('/dashboard', true);
     return;
   }
 
-  const response = await fetch(routes[path].page);
+  const response = await fetch(route.page);
   const html = await response.text();
   document.getElementById('app').innerHTML = html;
   
-  routes[path].controller.init();
+  route.controller.init();
 }
 
 export function navigate(path, replace = false) {
@@ -58,7 +54,6 @@ export function navigate(path, replace = false) {
   } else {
     window.history.pushState({}, '', path);
   }
-
   router();
 }
 

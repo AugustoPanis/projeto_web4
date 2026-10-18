@@ -9,9 +9,9 @@ export class RegisterView {
     this.cpf = document.getElementById('cpf');
 
   }
-    bindSingInClick(credentials) {
+  bindSingInClick(handler) {
     this.btnSingIn.addEventListener('click', (execute) => {
-      credentials();
+      handler();
     });
   }
 

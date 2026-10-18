@@ -2,6 +2,7 @@ import { authService } from '../services/authService.js';
 import { clientService } from '../services/clientService.js';
 import { RegisterView } from '../views/registerView.js';
 import { navigate } from '../router/router.js';
+import { getFriendlyErrorMessage } from '../utils/errorMessages.js';
 
 export const registerController = {
   view: null,
@@ -11,12 +12,12 @@ export const registerController = {
   },
 
   bindEvents() {
-    this.view.bindSingUpClick((credentials) => this.SingUp(credentials));
+    this.view.bindSingUpClick((handler) => this.SingUp(handler));
     this.view.bindSingInClick(() => this.SingIn());
-
   },
-      async SingIn() {
-      navigate('/')
+
+  async SingIn() {
+    navigate('/login')
   },
 
   async SingUp(credentials) {
@@ -24,23 +25,13 @@ export const registerController = {
       await clientService.clientCreate(credentials);
       this.view.showSuccess('Cadastro realizado com sucesso!');
       navigate('/dashboard')
-      
-    } catch (err) {
-      this.view.showError(err.message || 'Falha na autenticação');
-    }
-  },
 
-
-  async logout() {
-    try {
-      await authService.logout();
-      navigate('/login');
     } catch (err) {
-      console.error('Erro ao encerrar sessão:', err);
+      this.view.showError(getFriendlyErrorMessage(err.code));
     }
   },
 
   async checkAuth() {
     return authService.waitForAuth();
-  }
+  },
 };
