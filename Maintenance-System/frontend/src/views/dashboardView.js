@@ -1,27 +1,28 @@
 export class DashboardView {
-
     constructor() {
         this.searchForm = document.getElementById('search-form');
         this.searchInput = document.getElementById('searchInput');
+        this.searchButton = document.getElementById('searchButton');
         this.activesTotal = document.getElementById('activesTotal');
         this.preventiveTotal = document.getElementById('preventiveTotal');
         this.maintenceEquipamentsTotal = document.getElementById('maintenceEquipamentsTotal');
         this.equipmentsTable = document.getElementById('equipmentsTable');
     }
 
-    searchEquipment(handler) {
-        this.searchForm.addEventListener('submit', (execute) => {
-            
+    searchEquipmentForButton(handler) {
+        this.searchButton.addEventListener('click', (execute) => {
             execute.preventDefault();
-            this.clearError();
+
+            // this.clearError();
+
             const search = this.searchInput.value;
-            handler({ search });
+            handler(search);
         });
     }
 
-    toLoadEquipments(equipments) {
-        this.maintenceEquipamentsTotal.innerHTML = equipments.length;
-    }
+    // toLoadEquipments(equipments) {
+    //     this.maintenceEquipamentsTotal.innerHTML = equipments.length;
+    // }
 
     toLoadEquipmentsTable(equipments) {
         this.equipmentsTable.innerHTML = '';
@@ -36,8 +37,8 @@ export class DashboardView {
             this.equipmentsTable.appendChild(row);
         });
     }
-    
+
     clearError() {
-        this.errorEl.textContent = '';
+        // this.errorEl.textContent = '';
     }
 }

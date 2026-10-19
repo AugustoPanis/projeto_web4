@@ -1,6 +1,7 @@
 import { DashboardView } from '../views/dashboardView.js';
 import { dashboardService } from '../services/dashboardService.js';
 import { authService } from '../services/authService.js';
+import { getFriendlyErrorMessage } from '../utils/errorMessages.js';
 
 export const dashboardController = {
   view: null,
@@ -11,8 +12,19 @@ export const dashboardController = {
   },
 
   bindEvents() {
+    this.view.searchEquipmentForButton((search) => this.searchEquipment(search));
+  },
 
-    this.view.searchEquipment((search) => this.searchEquipment({ search }));
+  async searchEquipment(search) {
+    try {
+      await dashboardService.searchEquipment(search);
+    } catch (err) {
+      // this.view.showError(err.message || 'Erro ao buscar equipamentos');
+    }
+  },
+
+  async checkAuth() {
+    return authService.waitForAuth();
   },
 
   async toLoadEquipments() {
@@ -21,28 +33,19 @@ export const dashboardController = {
       this.view.toLoadEquipments(equipments);
     }
     catch (err) {
-      this.view.showError(err.message || 'Erro ao carregar equipamentos');
+      // this.view.showError(getFriendlyErrorMessage(err.code));
     }
   },
-  
+
   async toLoadEquipmentsTable(equipments) {
     try {
       const equipments = await dashboardService.loadEquipmentsTable();
       this.view.toLoadEquipmentsTable(equipments);
     } catch (error) {
-      this.view.showError(error.message || 'Erro ao carregar tabela de equipamentos');
+      // this.view.showError(error.message || 'Erro ao carregar tabela de equipamentos');
     }
   },
 
-  async searchEquipment(search) {
-    try {
-       await dashboardService.searchEquipment(search);
-    } catch (err) {
-      this.view.showError(err.message || 'Erro ao buscar equipamentos');
-    }
-  },
-    async checkAuth() {
-      return authService.waitForAuth();
-    }
+
 
 };
