@@ -3,33 +3,56 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Maintenance System</title>
-    <link rel="stylesheet" href="../css/dashboard.css">
 </head>
-<main class="login-container">
-    <form id="login-form">
-        <h2>Acesso ao Sistema</h2>
-        <label for="name">Nome</label>
-        <input type="text" id="name" required autocomplete="username">
 
-        <label for="cpf">CPF</label>
-        <input type="text" id="cpf" required autocomplete="username">
+<body class="bg-light m-0">
 
-        <label for="email">E-mail</label>
-        <input type="email" id="email" required autocomplete="username">
+    <div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center py-4">
+        <main class="login-container w-100" style="max-width: 400px;">
+            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-body p-4">
+                    <h2 class="card-title text-center text-primary mb-4 fw-bold">Cadastro de Usuário</h2>
 
-        <label for="password">Senha</label>
-        <input type="password" id="password" required autocomplete="current-password">
+                    <form id="login-form">
+                        <div class="mb-3">
+                            <label for="name" class="form-label text-secondary small fw-semibold">Nome</label>
+                            <input type="text" id="name" class="form-control" placeholder="Seu nome completo" required autocomplete="name">
+                        </div>
 
-        <button type="submit" id="btn-singUp">
-            Cadastrar-se
-        </button>
-        <button type="button" id="btn-singIn">Voltar para login</button>
+                        <div class="mb-3">
+                            <label for="cpf" class="form-label text-secondary small fw-semibold">CPF</label>
+                            <input type="text" id="cpf" class="form-control" placeholder="000.000.000-00" required autocomplete="off">
+                        </div>
 
-        <p id="error-message" class="error"></p>
-        <p id="success-message" class="success"></p>
+                        <div class="mb-3">
+                            <label for="email" class="form-label text-secondary small fw-semibold">E-mail</label>
+                            <input type="email" id="email" class="form-control" placeholder="seu@email.com" required autocomplete="email">
+                        </div>
 
-    </form>
-</main>
+                        <div class="mb-3">
+                            <label for="password" class="form-label text-secondary small fw-semibold">Senha</label>
+                            <input type="password" id="password" class="form-control" placeholder="••••••••" required autocomplete="new-password">
+                        </div>
+
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" id="btn-singUp" class="btn btn-primary fw-semibold">
+                                Cadastrar-se
+                            </button>
+                            <button type="button" id="btn-singIn" class="btn btn-outline-secondary">
+                                Voltar para login
+                            </button>
+                        </div>
+
+                        <p id="error-message" class="error text-danger text-center small mt-3 mb-0"></p>
+                        <p id="success-message" class="success text-success text-center small mt-3 mb-0"></p>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+</body>
 
 </html>

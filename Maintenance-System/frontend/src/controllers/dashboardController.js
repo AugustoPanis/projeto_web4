@@ -1,5 +1,6 @@
 import { DashboardView } from '../views/dashboardView.js';
 import { dashboardService } from '../services/dashboardService.js';
+import { authService } from '../services/authService.js';
 
 export const dashboardController = {
   view: null,
@@ -39,6 +40,9 @@ export const dashboardController = {
     } catch (err) {
       this.view.showError(err.message || 'Erro ao buscar equipamentos');
     }
-  }
+  },
+    async checkAuth() {
+      return authService.waitForAuth();
+    }
 
 };

@@ -12,22 +12,16 @@ export const loginController = {
 
   bindEvents() {
     this.view.bindSignIn((credentials) => this.singIn(credentials));
-    this.view.bindSingUpClick(() => this.SingUp());
+    this.view.bindSingUpClick(() => this.SignUp());
     this.view.bindForgotPaswordClick((credentials) => this.forgotPassword(credentials));
-
   },
 
-  async SingUp() {
+  async SignUp() {
     navigate('/register');
   },
 
   async forgotPassword(credentials) {
-    try {
-      await authService.forgotPassword(credentials);
-      navigate('/dashboard');
-    } catch (err) {
-      this.view.showError(getFriendlyErrorMessage(err.code));
-    }
+    navigate('/forgot-password');
 
   },
 
