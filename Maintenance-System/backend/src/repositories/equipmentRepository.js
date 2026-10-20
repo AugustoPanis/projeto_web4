@@ -1,19 +1,30 @@
 import prisma from '../lib/prisma.js';
 
+
+
+export const getAll = async () => {
+    return await prisma.equipament.findMany();
+
+};
+
+export const search = async (term) => {
+    return await prisma.equipament.findMany({
+        where: term
+            ? {
+                name: {
+                    contains: term,
+                    mode: 'insensitive'
+                }
+            }
+            : undefined
+    });
+
+};
+
 export const create = async (data) => {
     return await prisma.user.create({
         data
     });
-};
-
-export const getAll = async () => {
-    try {
-    return await prisma.equipament.findMany();
-    }
-    catch (error) {
-        console.error('Erro ao buscar equipamentos:', error);
-        throw new Error('Erro ao buscar equipamentos');
-    }
 };
 
 export const getId = async (id) => {

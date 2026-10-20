@@ -15,7 +15,7 @@ export class LoginView {
   }
 
     bindSignIn(handler) {
-    this.btnSingIn.addEventListener('submit', (execute) => {
+    this.btnSingIn.addEventListener('click', (execute) => {
       execute.preventDefault();
       this.clearError();
 

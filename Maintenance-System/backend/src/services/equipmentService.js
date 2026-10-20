@@ -3,6 +3,18 @@ import { AppError } from "../errors/AppError.js";
 import { translateError } from "../errors/translateError.js";
 
 
+
+const getAll = async (term) => {
+    if (term) {
+        console.log("de boa");
+        return await equipmentRepository.search(term);
+    }
+            console.log("de boa");
+
+    return await equipmentRepository.getAll();
+};
+
+
 const getEquipamentById = async (id) => {
     const equipament = await equipmentRepository.getId(id);
     if (!equipament) {
@@ -14,15 +26,7 @@ const getEquipamentById = async (id) => {
     return equipament;
 };
 
-const getAll = async () => {
-    try {
-    return await equipmentRepository.getAll();
-}
-catch (error) {
-    console.error('Erro ao buscar equipamentos:', error);
-    throw new Error('Erro ao buscar equipamentos');
-}
-}
+
 const create = async (data) => {
 
 };

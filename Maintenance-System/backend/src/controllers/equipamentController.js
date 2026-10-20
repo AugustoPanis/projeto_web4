@@ -1,15 +1,28 @@
 import equipmentService from "../services/equipmentService.js";
 
 
+const getAll = async (req, res) => {
+    const { term } = req.query;
+
+    const result = await equipmentService.getAll(term);
+
+    return res.json(result);
+};
+
+
+
+
+
+
+
+
+
 const createEquipament = async (req, res) => {
     const result = await equipmentsService.create(req.body);
     return res.status(201).json(result);
 };
 
-const getAll = async (req, res) => {
-    const result = await equipmentService.getAll();
-    return res.json(result);
-};
+
 
 const getId = async (req, res) => {
     const { id } = req.params;

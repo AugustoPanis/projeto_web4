@@ -10,6 +10,8 @@ router.get("/:id", clientController.getId);
 
 router.post("/", clientController.createClient);
 
+
+
 router.put("/:id", clientController.updateClient);
 
 router.delete("/:id", clientController.deleteClient);

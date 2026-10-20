@@ -18,6 +18,7 @@ export const dashboardController = {
   async searchEquipment(search) {
     try {
       await dashboardService.searchEquipment(search);
+              this.view.toLoadEquipmentsTable(equipments);
     } catch (err) {
       // this.view.showError(err.message || 'Erro ao buscar equipamentos');
     }
