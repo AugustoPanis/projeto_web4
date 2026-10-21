@@ -9,8 +9,6 @@ const getAll = async (term) => {
         console.log("de boa");
         return await equipmentRepository.search(term);
     }
-            console.log("de boa");
-
     return await equipmentRepository.getAll();
 };
 
@@ -28,6 +26,10 @@ const getEquipamentById = async (id) => {
 
 
 const create = async (data) => {
+
+   const equipament =  await equipmentRepository.create(data);
+    return equipament;
+
 
 };
 

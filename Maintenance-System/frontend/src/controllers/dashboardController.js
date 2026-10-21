@@ -17,36 +17,31 @@ export const dashboardController = {
 
   async searchEquipment(search) {
     try {
-      await dashboardService.searchEquipment(search);
-              this.view.toLoadEquipmentsTable(equipments);
+      const equipments = await dashboardService.searchEquipment(search);
+      this.view.toLoadEquipmentsTable(equipments);
     } catch (err) {
-      // this.view.showError(err.message || 'Erro ao buscar equipamentos');
+      this.view.showError(getFriendlyErrorMessage(err.code));
+
+    }
+  },
+
+  async toLoadEquipments() {
+    try {
+      const equipments = await dashboardService.loadEquipments();
+
+      this.view.toLoadEquipmentsTable(equipments);
+      this.view.showEquipmentTotals({
+        active: equipments.filter(e => e.status === 'ATIVO').length,
+        preventive: equipments.filter(e => e.status === 'PREVENTIVA').length,
+        maintenance: equipments.filter(e => e.status === 'MANUTENCAO').length,
+      });
+    } catch (err) {
+      this.view.showError(getFriendlyErrorMessage(err.code));
     }
   },
 
   async checkAuth() {
     return authService.waitForAuth();
   },
-
-  async toLoadEquipments() {
-    try {
-      const equipments = await dashboardService.loadEquipments();
-      this.view.toLoadEquipments(equipments);
-    }
-    catch (err) {
-      // this.view.showError(getFriendlyErrorMessage(err.code));
-    }
-  },
-
-  async toLoadEquipmentsTable(equipments) {
-    try {
-      const equipments = await dashboardService.loadEquipmentsTable();
-      this.view.toLoadEquipmentsTable(equipments);
-    } catch (error) {
-      // this.view.showError(error.message || 'Erro ao carregar tabela de equipamentos');
-    }
-  },
-
-
 
 };

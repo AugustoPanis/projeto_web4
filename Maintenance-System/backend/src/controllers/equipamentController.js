@@ -6,7 +6,7 @@ const getAll = async (req, res) => {
 
     const result = await equipmentService.getAll(term);
 
-    return res.json(result);
+    res.json(result);
 };
 
 
@@ -18,7 +18,7 @@ const getAll = async (req, res) => {
 
 
 const createEquipament = async (req, res) => {
-    const result = await equipmentsService.create(req.body);
+    const result = await equipmentService.create(req.body);
     return res.status(201).json(result);
 };
 
@@ -45,7 +45,7 @@ const deleteEquipament = async (req, res) => {
 
 export default {
     getAll,
-    createBarbershop: createEquipament,
+    createEquipament,
     getId,
     updateBarbershop: updateEquipament,
     deleteBarbershop: deleteEquipament

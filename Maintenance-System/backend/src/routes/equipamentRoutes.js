@@ -8,7 +8,7 @@ router.get("/", equipamentController.getAll);
 
 router.get("/:id", equipamentController.getId);
 
-router.post("/", equipamentController.createBarbershop);
+router.post("/", equipamentController.createEquipament);
 
 router.put("/:id", equipamentController.updateBarbershop);
 

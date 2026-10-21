@@ -22,7 +22,7 @@ export const search = async (term) => {
 };
 
 export const create = async (data) => {
-    return await prisma.user.create({
+    return await prisma.equipament.create({
         data
     });
 };
@@ -57,6 +57,7 @@ export const deleteClient = async (id) => {
 export default {
     create,
     getAll,
+    search,
     getId,
     existingUser,
     update,

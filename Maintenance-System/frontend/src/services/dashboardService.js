@@ -17,7 +17,7 @@ export const dashboardService = {
 
   async loadEquipmentsTable() {
 
-    const data = await api.get('/equipment/table');
+    const data = await api.get('/equipment');
     return data;
   }
 };
