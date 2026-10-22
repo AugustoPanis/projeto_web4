@@ -2,6 +2,8 @@ import { DashboardView } from '../views/dashboardView.js';
 import { dashboardService } from '../services/dashboardService.js';
 import { authService } from '../services/authService.js';
 import { getFriendlyErrorMessage } from '../utils/errorMessages.js';
+import { navigate } from '../router/router.js';
+
 
 export const dashboardController = {
   view: null,
@@ -9,10 +11,13 @@ export const dashboardController = {
     this.view = new DashboardView();
     this.toLoadEquipments();
     this.bindEvents();
+
   },
 
   bindEvents() {
     this.view.searchEquipmentForButton((search) => this.searchEquipment(search));
+    this.view.bindNavClick((route) => navigate(route));
+
   },
 
   async searchEquipment(search) {

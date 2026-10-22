@@ -2,6 +2,8 @@ import { loginController } from '../controllers/loginController.js';
 import { registerController } from '../controllers/registerController.js';
 import { forgotPasswordController } from '../controllers/forgotPasswordController.js';
 import { dashboardController } from '../controllers/dashboardController.js';
+import { equipamentsController } from '../controllers/equipamentsController.js';
+
 
 const routes = {
   '/login': {
@@ -9,12 +11,22 @@ const routes = {
     controller: loginController,
     public: true
   },
+    '/equipment': {
+    page: './pages/equipaments/equipaments.html',
+    controller: equipamentsController,
+    public: true
+  },
+  // '/tenicos': {
+  //   page: './pages/tenicos/tenicos.html',
+  //   controller: tenicosController,
+  //   public: true
+  // },
   '/register': {
     page: './pages/register/register.html',
     controller: registerController,
     public: true
   },
-    '/forgot-password': {
+  '/forgot-password': {
     page: './pages/login/forgot-password.html',
     controller: forgotPasswordController,
     public: false
@@ -50,7 +62,7 @@ export async function router() {
   const response = await fetch(route.page);
   const html = await response.text();
   document.getElementById('app').innerHTML = html;
-  
+
   route.controller.init();
 }
 

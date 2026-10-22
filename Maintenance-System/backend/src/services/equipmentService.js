@@ -29,8 +29,6 @@ const create = async (data) => {
 
    const equipament =  await equipmentRepository.create(data);
     return equipament;
-
-
 };
 
 const update = async (id, data) => {
