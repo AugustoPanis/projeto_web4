@@ -1,5 +1,5 @@
 import { DashboardView } from '../views/dashboardView.js';
-import { dashboardService } from '../services/dashboardService.js';
+import { equipmentService } from '../services/equipmentService.js';
 import { authService } from '../services/authService.js';
 import { getFriendlyErrorMessage } from '../utils/errorMessages.js';
 import { navigate } from '../router/router.js';
@@ -11,28 +11,25 @@ export const dashboardController = {
     this.view = new DashboardView();
     this.toLoadEquipments();
     this.bindEvents();
-
   },
 
   bindEvents() {
     this.view.searchEquipmentForButton((search) => this.searchEquipment(search));
     this.view.bindNavClick((route) => navigate(route));
-
   },
 
   async searchEquipment(search) {
     try {
-      const equipments = await dashboardService.searchEquipment(search);
+      const equipments = await equipmentService.searchEquipment(search);
       this.view.toLoadEquipmentsTable(equipments);
     } catch (err) {
       this.view.showError(getFriendlyErrorMessage(err.code));
-
     }
   },
 
   async toLoadEquipments() {
     try {
-      const equipments = await dashboardService.loadEquipments();
+      const equipments = await equipmentService.loadEquipments();
 
       this.view.toLoadEquipmentsTable(equipments);
       this.view.showEquipmentTotals({

@@ -12,6 +12,6 @@ router.post("/", equipamentController.createEquipament);
 
 router.put("/:id", equipamentController.updateBarbershop);
 
-router.delete("/:id", equipamentController.deleteBarbershop);
+router.delete("/:id", equipamentController.deleteEquipament);
 
 export default router;

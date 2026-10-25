@@ -1,6 +1,6 @@
 import { api } from './api.js';
 
-export const dashboardService = {
+export const equipmentService = {
 
   async searchEquipment(search) {
     const query = search ? `?term=${encodeURIComponent(search)}` : '';
@@ -12,5 +12,14 @@ export const dashboardService = {
     const data = await api.get('/equipament');
     return data;
   },
+
+  async createEquipament(equipament){
+    const data = await api.post('/equipament',equipament);
+    return data;
+  },
+    async deleteEquipament(id){
+    const data = await api.delete(`/equipament/${id}`);
+    return data;
+  }
 
 };

@@ -1,7 +1,5 @@
 import prisma from '../lib/prisma.js';
 
-
-
 export const getAll = async () => {
     return await prisma.equipament.findMany();
 
@@ -28,7 +26,7 @@ export const create = async (data) => {
 };
 
 export const getId = async (id) => {
-    return await prisma.client.findUnique({
+    return await prisma.equipament.findUnique({
         where: { id }
     });
 };
@@ -48,8 +46,8 @@ export const update = async (id, data) => {
     });
 };
 
-export const deleteClient = async (id) => {
-    return await prisma.client.delete({
+export const deleteEquipament = async (id) => {
+    return await prisma.equipament.delete({
         where: { id },
     });
 };
@@ -61,5 +59,5 @@ export default {
     getId,
     existingUser,
     update,
-    deleteClient,
+    deleteEquipament,
 };

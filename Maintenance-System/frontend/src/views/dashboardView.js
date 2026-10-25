@@ -7,9 +7,7 @@ export class DashboardView {
         this.activesTotal = document.getElementById('activesTotal');
         this.preventiveTotal = document.getElementById('preventiveTotal');
         this.maintenanceTotal = document.getElementById('maintenceEquipamentsTotal');
-        this.tecnicos = document.getElementById('tecnicos');
     }
-
     searchEquipmentForButton(handler) {
         this.searchButton.addEventListener('click', (execute) => {
             execute.preventDefault();
@@ -45,6 +43,13 @@ export class DashboardView {
         this.activesTotal.textContent = active;
         this.preventiveTotal.textContent = preventive;
         this.maintenanceTotal.textContent = maintenance;
+    }
+    showError(message) {
+        this.errorEl.textContent = message;
+    }
+
+    clearError() {
+        this.errorEl.textContent = '';
     }
 
 }

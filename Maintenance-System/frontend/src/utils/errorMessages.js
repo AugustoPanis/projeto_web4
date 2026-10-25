@@ -5,6 +5,7 @@ const messages = {
   WEAK_PASSWORD: 'A senha é muito fraca. Use pelo menos 6 caracteres.',
   DUPLICATE_CPF_OR_EMAIL: 'Este CPF ou e-mail já está cadastrado no sistema.',
   CLIENT_NOT_FOUND: 'Cliente não encontrado.',
+  DUPLICATE_PATRIMONY: 'Já existe um equipamento com esse patrimônio.',
   'auth/invalid-credential': 'E-mail ou senha incorretos.',
   'auth/invalid-email': 'O formato do e-mail informado é inválido.',
   'auth/missing-password': 'Informe a sua senha.',

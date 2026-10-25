@@ -2,8 +2,6 @@ import equipmentRepository from "../repositories/equipmentRepository.js";
 import { AppError } from "../errors/AppError.js";
 import { translateError } from "../errors/translateError.js";
 
-
-
 const getAll = async (term) => {
     if (term) {
         console.log("de boa");
@@ -11,6 +9,35 @@ const getAll = async (term) => {
     }
     return await equipmentRepository.getAll();
 };
+
+const createEquipament = async (data) => {
+    try {
+        const equipament = {
+            ...data,
+            acquisitionDate: new Date(data.acquisitionDate),
+        };
+        return await equipmentRepository.create(equipament);
+    } catch (error) {
+        throw translateError(error);
+    }
+};
+
+const parseId = (value) => {
+  const id = Number(value);
+  if (!Number.isInteger(id)) {
+    throw new AppError("ID inválido", { statusCode: 400, code: "INVALID_ID", field: "id" });
+  }
+  return id;
+};
+
+const deleteEquipament = async (id) => {
+    const equipamentId = parseId(id);
+    
+    await getEquipamentById(equipamentId);
+    return await equipmentRepository.deleteEquipament(equipamentId);
+};
+
+
 
 
 const getEquipamentById = async (id) => {
@@ -24,12 +51,6 @@ const getEquipamentById = async (id) => {
     return equipament;
 };
 
-
-const create = async (data) => {
-
-   const equipament =  await equipmentRepository.create(data);
-    return equipament;
-};
 
 const update = async (id, data) => {
     await getEquipamentById(id);
@@ -48,14 +69,11 @@ const update = async (id, data) => {
     return await equipmentRepository.update(id, data);
 };
 
-const deletarEquipament = async (id) => {
-    await getEquipamentById(id);
-    return await equipmentRepository.deleteEquipament(id);
-};
+
 
 export default {
-    create,
+    createEquipament,
     getAll,
     update,
-    deleteEquipament: deletarEquipament
+    deleteEquipament
 };

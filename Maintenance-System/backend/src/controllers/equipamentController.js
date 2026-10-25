@@ -9,17 +9,17 @@ const getAll = async (req, res) => {
     res.json(result);
 };
 
-
-
-
-
-
-
-
-
 const createEquipament = async (req, res) => {
-    const result = await equipmentService.create(req.body);
+    console.log("[controller] body:", req.body);
+    const result = await equipmentService.createEquipament(req.body);
     return res.status(201).json(result);
+};
+
+const deleteEquipament = async (req, res) => {
+    console.log("[controller] body:", req.body);
+    const { id } = req.params;
+    await equipmentService.deleteEquipament(id);
+    return res.status(204).send();
 };
 
 
@@ -36,17 +36,13 @@ const updateEquipament = async (req, res) => {
     return res.json(result);
 };
 
-const deleteEquipament = async (req, res) => {
-    const { id } = req.params;
-    await equipmentsService.deleteEquipment(id);
 
-    return res.status(204).send();
-};
+
 
 export default {
     getAll,
     createEquipament,
     getId,
     updateBarbershop: updateEquipament,
-    deleteBarbershop: deleteEquipament
+    deleteEquipament
 };

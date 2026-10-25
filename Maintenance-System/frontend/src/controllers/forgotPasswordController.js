@@ -13,7 +13,6 @@ export const forgotPasswordController = {
   bindEvents() {
     this.view.bindSignIpClick((credentials) => this.signIn(credentials));
     this.view.bindForgotPaswordClick((credentials) => this.forgotPassword(credentials));
-
   },
 
   async signIn() {
