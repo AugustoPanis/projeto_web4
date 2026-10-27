@@ -10,9 +10,10 @@ export class EquipamentView {
         this.dateAcquisition = document.getElementById('dateAcquisition');
         this.locationEquipment = document.getElementById('locationEquipment');
         this.patrymony = document.getElementById('patrymony');
-        this.errorEl = document.getElementById('error-message');
-        this.successMessage = document.getElementById('success-message');
         this.deleteButton = document.getElementById('deleteButton');
+        this.modalEl = document.getElementById('modalNovoEquipamento');
+        this.form = document.getElementById('formNovoEquipamento');
+
     }
     createEquipament(handler) {
         this.saveEquipament.addEventListener('click', (execute) => {
@@ -27,14 +28,29 @@ export class EquipamentView {
 
         });
     }
+    bindModalReset() {
+        this.modalEl.addEventListener('hidden.bs.modal', () => {
+            this.form.reset();
+        });
+    }
+    closeModal() {
+        bootstrap.Modal.getInstance(this.modalEl)?.hide();
+    }
     bindRowSelect(handler) {
         this.equipmentsTable.addEventListener('click', (e) => {
             const row = e.target.closest('tr');
             if (!row) return;
 
+            const lineSelect = row.classList.contains('table-active');
+
             this.equipmentsTable
                 .querySelectorAll('tr.table-active')
                 .forEach((r) => r.classList.remove('table-active'));
+
+            if (lineSelect) {
+                handler(null);
+                return;
+            }
 
             row.classList.add('table-active');
             handler(row.dataset.id);
@@ -54,10 +70,9 @@ export class EquipamentView {
         });
     }
     searchEquipmentForButton(handler) {
-        this.searchButton.addEventListener('click', (execute) => {
-            execute.preventDefault();
-            const search = this.searchInput.value;
-            handler(search);
+        this.searchForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            handler(this.searchInput.value);
         });
     }
     toLoadEquipmentsTable(equipments) {
@@ -73,17 +88,6 @@ export class EquipamentView {
             `;
             this.equipmentsTable.appendChild(row);
         });
-    }
-    showError(message) {
-        this.errorEl.textContent = message;
-    }
-
-    showSuccess(message) {
-        this.successMessage.textContent = message;
-    }
-
-    clearError() {
-        this.errorEl.textContent = '';
     }
 }
 

@@ -5,11 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Dashboard - Sistema de Manutenção</title>
-</head>
+    <link rel="stylesheet" href="./css/grid.css">
 
-<style>#equipmentsTable tr {
-  cursor: pointer;
-}</style>
+</head>
 
 <body class="bg-light">
     <div class="container-fluid">
@@ -28,11 +26,12 @@
                         <div class="row g-4 align-items-center justify-content-between">
                             <div class="col-md-8">
                                 <div class="input-group">
-                                    <input id="searchInput" type="text" class="form-control"
-                                        placeholder="Pesquisar equipamento...">
-                                    <button type="button" id="searchButton" class="btn btn-primary">
-                                        Pesquisar
-                                    </button>
+                                    <form id="search-form" class="input-group">
+                                        <input id="searchInput" type="text" class="form-control"
+                                            placeholder="Pesquisar equipamento...">
+                                        <button type="submit" id="searchButton"
+                                            class="btn btn-primary">Pesquisar</button>
+                                    </form>
                                 </div>
                             </div>
                             <div class="col-md-4 text-md-end">
@@ -121,6 +120,7 @@
     <footer class="text-center text-muted py-2 mt-1 border-top">
         <p class="mb-0 small">2026 Sistema de Controle e Manutenção de Equipamentos ADS2026-2</p>
     </footer>
+    <div id="toast-container" class="toast-container-custom" aria-live="polite" aria-atomic="true"></div>
 </body>
 
 </html>
