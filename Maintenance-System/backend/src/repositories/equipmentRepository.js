@@ -31,16 +31,13 @@ export const getId = async (id) => {
     });
 };
 
-export const existingUser = async (data) => {
-    return await prisma.user.findFirst({
-        where: {
-            OR: [{ email: data.email }, { cpf: data.cpf }]
-        }
-    });
-};
+
+
 
 export const update = async (id, data) => {
-    return await prisma.client.update({
+            console.log("[controller] body:", req.body,"[controller] teste:", req.params);
+
+    return await prisma.equipament.update({
         where: { id },
         data,
     });
@@ -57,7 +54,6 @@ export default {
     getAll,
     search,
     getId,
-    existingUser,
     update,
     deleteEquipament,
 };

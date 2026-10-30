@@ -10,7 +10,7 @@ router.get("/:id", equipamentController.getId);
 
 router.post("/", equipamentController.createEquipament);
 
-router.put("/:id", equipamentController.updateBarbershop);
+router.put("/:id", equipamentController.updateEquipament);
 
 router.delete("/:id", equipamentController.deleteEquipament);
 

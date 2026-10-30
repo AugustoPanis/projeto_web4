@@ -1,8 +1,6 @@
 export class EquipamentView {
     constructor() {
-        this.searchForm = document.getElementById('search-form');
-        this.searchInput = document.getElementById('searchInput');
-        this.searchButton = document.getElementById('searchButton');
+
         this.equipmentsTable = document.getElementById('equipmentsTable');
         this.saveEquipament = document.getElementById('saveEquipament');
         this.statusEquipment = document.getElementById('statusEquipment');
@@ -10,11 +8,90 @@ export class EquipamentView {
         this.dateAcquisition = document.getElementById('dateAcquisition');
         this.locationEquipment = document.getElementById('locationEquipment');
         this.patrymony = document.getElementById('patrymony');
-        this.deleteButton = document.getElementById('deleteButton');
         this.modalEl = document.getElementById('modalNovoEquipamento');
         this.form = document.getElementById('formNovoEquipamento');
 
     }
+
+    bindRowEditSelect(handler) {
+        this.equipmentsTable.addEventListener('dblclick', (e) => {
+            const row = e.target.closest('tr');
+            if (!row) return;
+
+            this.clearSelection();
+            row.classList.add('table-active');
+            handler(row.dataset.id);
+        });
+    }
+
+    bindRowSelect(handler) {
+        this.equipmentsTable.addEventListener('click', (e) => {
+            const row = e.target.closest('tr');
+            if (!row) return;
+            if (e.detail > 1) return;
+
+            const lineSelect = row.classList.contains('table-active');
+            this.clearSelection();
+
+            if (lineSelect) {
+                handler(null);
+                return;
+            }
+
+            row.classList.add('table-active');
+            handler(row.dataset.id);
+        });
+    }
+
+
+    clearSelection() {
+        this.equipmentsTable
+            .querySelectorAll('tr.table-active')
+            .forEach((r) => r.classList.remove('table-active'));
+    }
+        bindModalReset() {
+        this.modalEl.addEventListener('hidden.bs.modal', () => {
+            this.form.reset();
+        });
+    }
+    closeModal() {
+        bootstrap.Modal.getInstance(this.modalEl)?.hide();
+    }
+    openModal() {
+        bootstrap.Modal.getOrCreateInstance(this.modalEl).show();
+    }
+
+
+
+
+
+        bindNavClick(handler) {
+        document.querySelectorAll('[data-route]').forEach((link) => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                handler(link.dataset.route);
+            });
+        });
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     createEquipament(handler) {
         this.saveEquipament.addEventListener('click', (execute) => {
             execute.preventDefault();
@@ -28,53 +105,21 @@ export class EquipamentView {
 
         });
     }
-    bindModalReset() {
-        this.modalEl.addEventListener('hidden.bs.modal', () => {
-            this.form.reset();
-        });
-    }
-    closeModal() {
-        bootstrap.Modal.getInstance(this.modalEl)?.hide();
-    }
-    bindRowSelect(handler) {
-        this.equipmentsTable.addEventListener('click', (e) => {
-            const row = e.target.closest('tr');
-            if (!row) return;
 
-            const lineSelect = row.classList.contains('table-active');
-
-            this.equipmentsTable
-                .querySelectorAll('tr.table-active')
-                .forEach((r) => r.classList.remove('table-active'));
-
-            if (lineSelect) {
-                handler(null);
-                return;
-            }
-
-            row.classList.add('table-active');
-            handler(row.dataset.id);
-        });
+    fillForm(equipment) {
+        this.nameEquipament.value = equipment.name;
+        this.statusEquipment.value = equipment.status;
+        this.patrymony.value = equipment.patrymony;
+        this.locationEquipment.value = equipment.local;
+        this.dateAcquisition.value = equipment.acquisitionDate; // formato YYYY-MM-DD
     }
 
-    bindDeleteClick(handler) {
-        this.deleteButton.addEventListener('click', handler);
-    }
 
-    bindNavClick(handler) {
-        document.querySelectorAll('[data-route]').forEach((link) => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                handler(link.dataset.route);
-            });
-        });
-    }
-    searchEquipmentForButton(handler) {
-        this.searchForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            handler(this.searchInput.value);
-        });
-    }
+
+    
+
+
+
     toLoadEquipmentsTable(equipments) {
         this.equipmentsTable.innerHTML = '';
 

@@ -23,16 +23,16 @@ const createEquipament = async (data) => {
 };
 
 const parseId = (value) => {
-  const id = Number(value);
-  if (!Number.isInteger(id)) {
-    throw new AppError("ID inválido", { statusCode: 400, code: "INVALID_ID", field: "id" });
-  }
-  return id;
+    const id = Number(value);
+    if (!Number.isInteger(id)) {
+        throw new AppError("ID inválido", { statusCode: 400, code: "INVALID_ID", field: "id" });
+    }
+    return id;
 };
 
 const deleteEquipament = async (id) => {
     const equipamentId = parseId(id);
-    
+
     await getEquipamentById(equipamentId);
     return await equipmentRepository.deleteEquipament(equipamentId);
 };
@@ -41,7 +41,9 @@ const deleteEquipament = async (id) => {
 
 
 const getEquipamentById = async (id) => {
-    const equipament = await equipmentRepository.getId(id);
+    const equipamentId = parseId(id);
+
+    const equipament = await equipmentRepository.getId(equipamentId);
     if (!equipament) {
         throw new AppError("Equipamento não encontrado", {
             statusCode: 404,
@@ -53,20 +55,9 @@ const getEquipamentById = async (id) => {
 
 
 const update = async (id, data) => {
-    await getEquipamentById(id);
+    const equipamentId = parseId(id);
 
-    if (data.email) {
-        const emailExistente = await equipmentRepository.findByEmail(data.email);
-        if (emailExistente && emailExistente._id?.toString() !== id && emailExistente.id !== id) {
-            throw new AppError("E-mail já cadastrado", {
-                statusCode: 409,
-                code: "EMAIL_ALREADY_IN_USE",
-                field: "email",
-            });
-        }
-    }
-
-    return await equipmentRepository.update(id, data);
+    return await equipmentRepository.update(equipamentId, data);
 };
 
 
@@ -75,5 +66,6 @@ export default {
     createEquipament,
     getAll,
     update,
-    deleteEquipament
+    deleteEquipament,
+    getEquipamentById
 };

@@ -26,13 +26,15 @@ const deleteEquipament = async (req, res) => {
 
 const getId = async (req, res) => {
     const { id } = req.params;
-    const result = await equipmentsService.getId(id);
+    const result = await equipmentService.getEquipamentById(id);
     return res.json(result);
 };
 
 const updateEquipament = async (req, res) => {
+        console.log("[controller] body:", req.body,"[controller] teste:", req.params);
+
     const { id } = req.params;
-    const result = await equipmentsService.update(id, req.body);
+    const result = await equipmentService.update(id, req.body);
     return res.json(result);
 };
 
@@ -43,6 +45,6 @@ export default {
     getAll,
     createEquipament,
     getId,
-    updateBarbershop: updateEquipament,
+    updateEquipament,
     deleteEquipament
 };
