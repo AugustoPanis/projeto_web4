@@ -23,6 +23,10 @@ export const equipmentService = {
   async deleteEquipament(id) {
     const data = await api.delete(`/equipament/${id}`);
     return data;
-  }
+  }, 
+    async putEquipament(id, equipament) {
+    const data = await api.put(`/equipament/${id}`, equipament);
+    return data;
+  }, 
 
 };

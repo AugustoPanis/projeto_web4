@@ -57,7 +57,15 @@ const getEquipamentById = async (id) => {
 const update = async (id, data) => {
     const equipamentId = parseId(id);
 
-    return await equipmentRepository.update(equipamentId, data);
+    try {
+        const equipament = {
+            ...data,
+            acquisitionDate: new Date(data.acquisitionDate),
+        };
+        return await equipmentRepository.update(equipamentId, equipament);
+    } catch (error) {
+        throw translateError(error);
+    }
 };
 
 

@@ -5,33 +5,37 @@ import { authService } from '../services/authService.js';
 import { getFriendlyErrorMessage } from '../utils/errorMessages.js';
 import { navigate } from '../router/router.js';
 import { ToolbarView } from '../views/ToolbarView.js';
+import { GridView } from '../views/GridView.js';
+
 
 
 export const equipamentsController = {
   Equipamentview: null,
   ToolbarView: null,
+  gridView: null,
   toast: null,
-  
+
+
   selectedId: null,
 
   init() {
     this.Equipamentview = new EquipamentView();
     this.ToolbarView = new ToolbarView();
+    this.gridView = new GridView();
     this.toast = new ToastView();
     this.bindEvents();
-    this.toLoadEquipmentsTable();
-    this.Equipamentview.bindModalReset();
   },
 
   bindEvents() {
     this.Equipamentview.bindNavClick((route) => navigate(route));
     this.Equipamentview.createEquipament((data) => this.createEquipament(data));
-    this.Equipamentview.bindRowSelect((id) => { this.selectedId = id; });
-    this.Equipamentview.bindRowEditSelect((id) => { this.selectedId = id; this.editEquipment(id); });
+    this.gridView.bindRowSelect((id) => { this.selectedId = id; });
+    this.gridView.bindRowEditSelect((id) => { this.selectedId = id; this.editEquipment(id); });
     this.ToolbarView.searchEquipmentForButton((search) => this.searchEquipment(search));
     this.ToolbarView.bindDeleteClick(() => this.deleteEquipment());
-    this.ToolbarView.bindEditClick(() => this.editEquipment(this.selectedId));
-
+    this.ToolbarView.bindEditClick(() => this.editEquipmentForButton(this.selectedId));
+    this.toLoadEquipmentsTable();
+    this.gridView.bindModalReset();
   },
 
   async editEquipment(id) {
@@ -39,18 +43,31 @@ export const equipamentsController = {
       const equipment = await equipmentService.getById(id);
       this.editingId = id;
       this.Equipamentview.fillForm(equipment);
-      this.Equipamentview.openModal();
+      this.gridView.setModalMode(true);
+      this.gridView.openModal();
     } catch (err) {
-        console.error(err);
+      this.toast.error(getFriendlyErrorMessage(err.code));
+    }
 
+  },
+  async editEquipmentForButton(id) {
+    if (!this.selectedId) {
+      this.toast.error('Selecione um equipamento para editar.');
+      return;
+    }
+    try {
+      const equipment = await equipmentService.getById(id);
+      this.editingId = id;
+      this.Equipamentview.fillForm(equipment);
+      this.gridView.setModalMode(true);
+      this.gridView.openModal();
+    } catch (err) {
       this.toast.error(getFriendlyErrorMessage(err.code));
     }
 
   },
 
-
   async deleteEquipment() {
-    console.log(`${this.selectedID}`)
     if (!this.selectedId) {
       this.toast.error('Selecione um equipamento para excluir.');
       return;
@@ -67,13 +84,15 @@ export const equipamentsController = {
     }
   },
 
-
-
   async createEquipament(equipament) {
     try {
-      await equipmentService.createEquipament(equipament);
+      if (this.editingId) {
+        await equipmentService.putEquipament(this.editingId, equipament);
+      } else {
+        await equipmentService.createEquipament(equipament);
+      }
       this.toast.success('Equipamento cadastrado com sucesso!');
-      this.Equipamentview.closeModal();
+      this.gridView.closeModal();
       await this.toLoadEquipmentsTable();
     } catch (err) {
       this.toast.error(getFriendlyErrorMessage(err.code));

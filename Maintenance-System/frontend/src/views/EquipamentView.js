@@ -8,88 +8,17 @@ export class EquipamentView {
         this.dateAcquisition = document.getElementById('dateAcquisition');
         this.locationEquipment = document.getElementById('locationEquipment');
         this.patrymony = document.getElementById('patrymony');
-        this.modalEl = document.getElementById('modalNovoEquipamento');
-        this.form = document.getElementById('formNovoEquipamento');
-
-    }
-
-    bindRowEditSelect(handler) {
-        this.equipmentsTable.addEventListener('dblclick', (e) => {
-            const row = e.target.closest('tr');
-            if (!row) return;
-
-            this.clearSelection();
-            row.classList.add('table-active');
-            handler(row.dataset.id);
-        });
-    }
-
-    bindRowSelect(handler) {
-        this.equipmentsTable.addEventListener('click', (e) => {
-            const row = e.target.closest('tr');
-            if (!row) return;
-            if (e.detail > 1) return;
-
-            const lineSelect = row.classList.contains('table-active');
-            this.clearSelection();
-
-            if (lineSelect) {
-                handler(null);
-                return;
-            }
-
-            row.classList.add('table-active');
-            handler(row.dataset.id);
-        });
     }
 
 
-    clearSelection() {
-        this.equipmentsTable
-            .querySelectorAll('tr.table-active')
-            .forEach((r) => r.classList.remove('table-active'));
-    }
-        bindModalReset() {
-        this.modalEl.addEventListener('hidden.bs.modal', () => {
-            this.form.reset();
-        });
-    }
-    closeModal() {
-        bootstrap.Modal.getInstance(this.modalEl)?.hide();
-    }
-    openModal() {
-        bootstrap.Modal.getOrCreateInstance(this.modalEl).show();
-    }
-
-
-
-
-
-        bindNavClick(handler) {
-        document.querySelectorAll('[data-route]').forEach((link) => {
+    bindNavClick(handler) {
+        document.querySelectorAll('nav a[href]').forEach((link) => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
-                handler(link.dataset.route);
+                handler(link.getAttribute('href'));
             });
         });
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     createEquipament(handler) {
@@ -111,14 +40,9 @@ export class EquipamentView {
         this.statusEquipment.value = equipment.status;
         this.patrymony.value = equipment.patrymony;
         this.locationEquipment.value = equipment.local;
-        this.dateAcquisition.value = equipment.acquisitionDate; // formato YYYY-MM-DD
+        this.dateAcquisition.value = equipment.acquisitionDate
+        ? equipment.acquisitionDate.slice(0, 10): '';;
     }
-
-
-
-    
-
-
 
     toLoadEquipmentsTable(equipments) {
         this.equipmentsTable.innerHTML = '';

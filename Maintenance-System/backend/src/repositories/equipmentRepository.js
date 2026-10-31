@@ -35,7 +35,7 @@ export const getId = async (id) => {
 
 
 export const update = async (id, data) => {
-            console.log("[controller] body:", req.body,"[controller] teste:", req.params);
+            console.log("[controller] body:","[controller] teste:", data);
 
     return await prisma.equipament.update({
         where: { id },
