@@ -10,17 +10,8 @@ export class EquipamentView {
         this.patrymony = document.getElementById('patrymony');
     }
 
-    bindNavClick(handler) {
-        document.querySelectorAll('nav a[href]').forEach((link) => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                handler(link.getAttribute('href'));
-            });
-        });
-    }
-
     createEquipament(handler) {
-        this.saveEquipament.addEventListener('click', (execute) => {
+        this.saveEquipament.addEventListener('submit', (execute) => {
             execute.preventDefault();
             const name = this.nameEquipament.value;
             const status = this.statusEquipment.value;

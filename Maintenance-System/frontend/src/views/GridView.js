@@ -1,11 +1,7 @@
 export class GridView {
     constructor() {
         this.equipmentsTable = document.getElementById('equipmentsTable');
-        this.activesTotal = document.getElementById('activesTotal');
-        this.preventiveTotal = document.getElementById('preventiveTotal');
-        this.maintenanceTotal = document.getElementById('maintenanceTotal');
         this.form = document.getElementById('formNovoEquipamento');
-
     }
 
     clearSelection() {
@@ -59,11 +55,4 @@ export class GridView {
             this.equipmentsTable.appendChild(row);
         });
     }
-
-    showEquipmentTotals({ active, preventive, maintenance }) {
-        this.activesTotal.textContent = active;
-        this.preventiveTotal.textContent = preventive;
-        this.maintenanceTotal.textContent = maintenance;
-    }
-
 }

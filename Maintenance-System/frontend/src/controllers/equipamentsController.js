@@ -3,6 +3,7 @@ import { EquipamentView } from '../views/EquipamentView.js';
 import { ToolbarView } from '../views/ToolbarView.js';
 import { ToastView } from '../views/ToastView.js';
 import { ModalView } from '../views/ModalView.js';
+import { NavView } from '../views/NavView.js';
 import { GridView } from '../views/GridView.js';
 import { equipmentService } from '../services/equipmentService.js';
 import { authService } from '../services/authService.js';
@@ -16,21 +17,32 @@ export const equipamentsController = {
     this.Equipamentview = new EquipamentView();
     this.ToolbarView = new ToolbarView();
     this.gridView = new GridView();
+    this.navView = new NavView();
     this.modalView = new ModalView();
     this.toast = new ToastView();
     this.bindEvents();
   },
 
   bindEvents() {
-    this.Equipamentview.bindNavClick((route) => navigate(route));
+    this.navView.bindNavClick((route) => navigate(route));
     this.Equipamentview.createEquipament((data) => this.createEquipament(data));
-    this.modalView.bindModalReset();
     this.gridView.bindRowSelect((id) => { this.selectedId = id; });
     this.gridView.bindRowEditSelect((id) => { this.selectedId = id; this.editEquipment(id); });
     this.ToolbarView.searchEquipment((search) => this.searchEquipment(search));
     this.ToolbarView.bindDeleteClick(() => this.deleteEquipment());
     this.ToolbarView.bindEditClick(() => this.editEquipmentForButton(this.selectedId));
     this.toLoadEquipmentsTable();
+    this.modalView.bindModalReset();
+    this.navView.bindlogoutClick(() => this.logout());
+
+  },
+  async logout() {
+    try {
+      await authService.logout();
+      navigate('/login');
+    } catch (err) {
+      this.toast.error(getFriendlyErrorMessage(err.code));
+    }
   },
 
   async searchEquipment(search) {

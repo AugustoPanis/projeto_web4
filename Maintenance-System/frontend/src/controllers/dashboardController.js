@@ -2,9 +2,9 @@ import { DashboardView } from '../views/dashboardView.js';
 import { ToastView } from '../views/ToastView.js';
 import { ToolbarView } from '../views/ToolbarView.js';
 import { GridView } from '../views/GridView.js';
+import { NavView } from '../views/NavView.js';
 import { equipmentService } from '../services/equipmentService.js';
 import { authService } from '../services/authService.js';
-
 import { getFriendlyErrorMessage } from '../utils/errorMessages.js';
 import { navigate } from '../router/router.js';
 
@@ -15,13 +15,23 @@ export const dashboardController = {
     this.toast = new ToastView();
     this.toolbarView = new ToolbarView();
     this.gridView = new GridView();
-    this.toLoadEquipments();
+    this.navView = new NavView();
     this.bindEvents();
   },
 
   bindEvents() {
     this.toolbarView.searchEquipment((search) => this.searchEquipment(search));
-    this.view.bindNavClick((route) => navigate(route));
+    this.navView.bindNavClick((route) => navigate(route));
+    this.navView.bindlogoutClick(() => this.logout());
+    this.toLoadEquipments();
+  },
+  async logout() {
+    try {
+      await authService.logout();
+      navigate('/login');
+    } catch (err) {
+      this.toast.error(getFriendlyErrorMessage(err.code));
+    }
   },
 
   async searchEquipment(search) {
@@ -39,7 +49,7 @@ export const dashboardController = {
       const equipments = await equipmentService.loadEquipments();
 
       this.gridView.toLoadEquipmentsTable(equipments);
-      this.gridView.showEquipmentTotals({
+      this.view.showEquipmentTotals({
         active: equipments.filter(e => e.status === 'Ativo').length,
         preventive: equipments.filter(e => e.status === 'Manutenção Preventiva').length,
         maintenance: equipments.filter(e => e.status === 'Em Manutenção').length,

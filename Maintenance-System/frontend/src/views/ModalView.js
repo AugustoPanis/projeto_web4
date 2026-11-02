@@ -22,6 +22,7 @@ export class ModalView {
             onClose?.();
         });
     }
+    
     closeModal() {
         bootstrap.Modal.getInstance(this.modalEl)?.hide();
     }
