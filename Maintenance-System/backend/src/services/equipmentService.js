@@ -4,7 +4,6 @@ import { translateError } from "../errors/translateError.js";
 
 const getAll = async (term) => {
     if (term) {
-        console.log("de boa");
         return await equipmentRepository.search(term);
     }
     return await equipmentRepository.getAll();

@@ -9,12 +9,20 @@ export class LoginView {
   }
 
   bindSingUpClick(handler) {
-    this.btnSingUp.addEventListener('click', (execute) => {
+    this.btnSingUp.addEventListener('click', () => {
+      this.clearError();
       handler();
     });
   }
 
-    bindSignIn(handler) {
+  bindForgotPaswordClick(handler) {
+    this.btnForgotPassword.addEventListener('click', () => {
+      this.clearError();
+      handler();
+    });
+  }
+
+  bindSignIn(handler) {
     this.btnSingIn.addEventListener('click', (execute) => {
       execute.preventDefault();
       this.clearError();
@@ -23,17 +31,6 @@ export class LoginView {
       const password = this.passwordInput.value;
 
       handler({ email, password });
-    });
-  }
-
-  bindForgotPaswordClick(handler) {
-    this.btnForgotPassword.addEventListener('click', (execute) => {
-      execute.preventDefault();
-      this.clearError();
-
-      const email = this.emailInput.value.trim();
-
-      handler({ email });
     });
   }
 

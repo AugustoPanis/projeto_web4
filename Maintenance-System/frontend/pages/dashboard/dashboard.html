@@ -24,10 +24,12 @@
                         <div class="row g-3 align-items-center">
                             <div class="col">
                                 <div class="input-group">
-                                    <input id="searchInput" type="text" class="form-control" placeholder="Pesquisar equipamento...">
-                                    <button type="button" id="searchButton" class="btn btn-primary">
-                                        Pesquisar
-                                    </button>
+                                    <form id="search-form" class="input-group">
+                                        <input id="searchInput" type="text" class="form-control"
+                                            placeholder="Pesquisar equipamento...">
+                                        <button type="submit" id="searchButton"
+                                            class="btn btn-primary">Pesquisar</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -54,7 +56,7 @@
                         <div class="card shadow-sm">
                             <div class="card-body">
                                 <h6 class="text-muted mb-2">Em Manutenção</h6>
-                                <h2 id="maintenceEquipamentsTotal" class="mb-0"></h2>
+                                <h2 id="maintenanceTotal" class="mb-0"></h2>
                             </div>
                         </div>
                     </div>
@@ -75,18 +77,13 @@
                         </div>
                     </div>
                 </div>
-
-                <p id="error-message" class="error text-danger text-center small mt-3 mb-0"></p>
             </main>
         </div>
     </div>
-
-    <!-- Rodapé -->
     <footer class="text-center text-muted py-3 mt-1 border-top">
         <p class="mb-0 small">2026 Sistema de Controle e Manutenção de Equipamentos ADS2026-2</p>
     </footer>
-
-    <!-- Bootstrap 5 JS Bundle -->
+    <div id="toast-container" class="toast-container-custom" aria-live="polite" aria-atomic="true"></div>
 </body>
 
 </html>

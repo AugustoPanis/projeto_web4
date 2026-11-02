@@ -3,14 +3,16 @@ export class RegisterView {
     this.emailInput = document.getElementById('email');
     this.passwordInput = document.getElementById('password');
     this.errorEl = document.getElementById('error-message');
+    this.successEl = document.getElementById('success-message');
     this.btnSingUp = document.getElementById('btn-singUp');
     this.btnSingIn = document.getElementById('btn-singIn');
     this.name = document.getElementById('name');
     this.cpf = document.getElementById('cpf');
-
   }
+
   bindSingInClick(handler) {
-    this.btnSingIn.addEventListener('click', (execute) => {
+    this.btnSingIn.addEventListener('click', () => {
+      this.clearError();
       handler();
     });
   }
@@ -34,7 +36,7 @@ export class RegisterView {
   }
 
   showSuccess(message) {
-    this.errorEl.textContent = message;
+    this.successEl.textContent = message;
   }
 
   clearError() {

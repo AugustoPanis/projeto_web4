@@ -4,7 +4,6 @@ import { navigate } from '../router/router.js';
 import { getFriendlyErrorMessage } from '../utils/errorMessages.js';
 
 export const forgotPasswordController = {
-  view: null,
   init() {
     this.view = new ForgotPasswordView();
     this.bindEvents();
@@ -22,25 +21,8 @@ export const forgotPasswordController = {
   async forgotPassword(credentials) {
     try {
       await authService.forgotPassword(credentials);
-    } catch (err) {
-      this.view.showError(getFriendlyErrorMessage(err.code));
-    }
+      this.view.showSuccess('Consulte seu email para redefinir a senha!');
 
-  },
-
-  async singIn(credentials) {
-    try {
-      await authService.singIn(credentials);
-      navigate('/dashboard');
-    } catch (err) {
-      this.view.showError(getFriendlyErrorMessage(err.code));
-    }
-  },
-
-  async logout() {
-    try {
-      await authService.logout();
-      navigate('/login');
     } catch (err) {
       this.view.showError(getFriendlyErrorMessage(err.code));
     }

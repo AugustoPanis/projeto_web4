@@ -5,7 +5,6 @@ import { navigate } from '../router/router.js';
 import { getFriendlyErrorMessage } from '../utils/errorMessages.js';
 
 export const registerController = {
-  view: null,
   init() {
     this.view = new RegisterView();
     this.bindEvents();
@@ -24,6 +23,7 @@ export const registerController = {
     try {
       await clientService.clientCreate(credentials);
       this.view.showSuccess('Cadastro realizado com sucesso!');
+      await authService.singIn(credentials);
       navigate('/dashboard')
 
     } catch (err) {

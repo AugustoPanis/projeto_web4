@@ -14,7 +14,7 @@ const routes = {
     '/equipment': {
     page: './pages/equipaments/equipaments.html',
     controller: equipamentsController,
-    public: true
+    public: false
   },
   // '/tenicos': {
   //   page: './pages/tenicos/tenicos.html',
@@ -29,7 +29,7 @@ const routes = {
   '/forgot-password': {
     page: './pages/login/forgot-password.html',
     controller: forgotPasswordController,
-    public: false
+    public: true
   },
   '/dashboard': {
     page: './pages/dashboard/dashboard.html',
@@ -39,6 +39,7 @@ const routes = {
 };
 
 export async function router() {
+
   const path = window.location.pathname;
   const route = routes[path];
 
@@ -49,15 +50,15 @@ export async function router() {
 
   const user = await route.controller.checkAuth();
 
-  // if (!route.public && !user) {
-  //   navigate('/login', true);
-  //   return;
-  // }
+  if (!route.public && !user) {
+    navigate('/login', true);
+    return;
+  }
 
-  // if (route.public && user) {
-  //   navigate('/dashboard', true);
-  //   return;
-  // }
+  if (route.public && user) {
+    navigate('/dashboard', true);
+    return;
+  }
 
   const response = await fetch(route.page);
   const html = await response.text();

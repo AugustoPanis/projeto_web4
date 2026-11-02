@@ -4,7 +4,6 @@ import { navigate } from '../router/router.js';
 import { getFriendlyErrorMessage } from '../utils/errorMessages.js';
 
 export const loginController = {
-  view: null,
   init() {
     this.view = new LoginView();
     this.bindEvents();
@@ -13,16 +12,15 @@ export const loginController = {
   bindEvents() {
     this.view.bindSignIn((credentials) => this.singIn(credentials));
     this.view.bindSingUpClick(() => this.SignUp());
-    this.view.bindForgotPaswordClick((credentials) => this.forgotPassword(credentials));
+    this.view.bindForgotPaswordClick(() => this.forgotPassword());
   },
 
   async SignUp() {
     navigate('/register');
   },
 
-  async forgotPassword(credentials) {
+  async forgotPassword() {
     navigate('/forgot-password');
-
   },
 
   async singIn(credentials) {

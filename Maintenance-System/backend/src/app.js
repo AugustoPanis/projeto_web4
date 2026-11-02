@@ -13,8 +13,9 @@ app.use(express.json());
 
 import equipamentRoutes from "./routes/equipamentRoutes.js";
 import clientRoutes from "./routes/clientRoutes.js";
+import { requireAuth } from "./middlewares/auth.js";
 
-app.use("/equipament", equipamentRoutes)
+app.use("/equipament", requireAuth, equipamentRoutes)
 app.use("/client", clientRoutes);
 app.use(errorHandler);
 

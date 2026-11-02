@@ -1,23 +1,17 @@
 export class GridView {
     constructor() {
-
         this.equipmentsTable = document.getElementById('equipmentsTable');
-        this.saveEquipament = document.getElementById('saveEquipament');
-        this.modalEl = document.getElementById('modalNovoEquipamento');
-        this.modalTitle = document.getElementById('modalNovoEquipamentoLabel');
+        this.activesTotal = document.getElementById('activesTotal');
+        this.preventiveTotal = document.getElementById('preventiveTotal');
+        this.maintenanceTotal = document.getElementById('maintenanceTotal');
         this.form = document.getElementById('formNovoEquipamento');
 
     }
 
-    bindRowEditSelect(handler) {
-        this.equipmentsTable.addEventListener('dblclick', (e) => {
-            const row = e.target.closest('tr');
-            if (!row) return;
-
-            this.clearSelection();
-            row.classList.add('table-active');
-            handler(row.dataset.id);
-        });
+    clearSelection() {
+        this.equipmentsTable
+            .querySelectorAll('tr.table-active')
+            .forEach((r) => r.classList.remove('table-active'));
     }
 
     bindRowSelect(handler) {
@@ -40,27 +34,36 @@ export class GridView {
         });
     }
 
-    clearSelection() {
-        this.equipmentsTable
-            .querySelectorAll('tr.table-active')
-            .forEach((r) => r.classList.remove('table-active'));
-    }
-    bindModalReset() {
-        this.modalEl.addEventListener('hidden.bs.modal', () => {
-            this.form.reset();
+    bindRowEditSelect(handler) {
+        this.equipmentsTable.addEventListener('dblclick', (e) => {
+            const row = e.target.closest('tr');
+            if (!row) return;
+
+            this.clearSelection();
+            row.classList.add('table-active');
+            handler(row.dataset.id);
         });
     }
-    closeModal() {
-        document.activeElement?.blur();
 
-        bootstrap.Modal.getInstance(this.modalEl)?.hide();
-    }
-    openModal() {
-        bootstrap.Modal.getOrCreateInstance(this.modalEl).show();
+    toLoadEquipmentsTable(equipments) {
+        this.equipmentsTable.innerHTML = '';
+
+        equipments.forEach((equipment) => {
+            const row = document.createElement('tr');
+            row.dataset.id = equipment.id;
+            row.innerHTML = `
+                <td>${equipment.name}</td>
+                <td>${equipment.local}</td>
+                <td>${equipment.status}</td>
+            `;
+            this.equipmentsTable.appendChild(row);
+        });
     }
 
-    setModalMode(isEditing) {
-        this.modalTitle.textContent = isEditing ? 'Editar Equipamento' : 'Novo Equipamento';
-        this.saveEquipament.textContent = isEditing ? 'Atualizar' : 'Salvar';
+    showEquipmentTotals({ active, preventive, maintenance }) {
+        this.activesTotal.textContent = active;
+        this.preventiveTotal.textContent = preventive;
+        this.maintenanceTotal.textContent = maintenance;
     }
+
 }

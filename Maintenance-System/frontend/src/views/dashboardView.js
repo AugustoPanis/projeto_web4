@@ -8,13 +8,6 @@ export class DashboardView {
         this.preventiveTotal = document.getElementById('preventiveTotal');
         this.maintenanceTotal = document.getElementById('maintenceEquipamentsTotal');
     }
-    searchEquipmentForButton(handler) {
-        this.searchButton.addEventListener('click', (execute) => {
-            execute.preventDefault();
-            const search = this.searchInput.value;
-            handler(search);
-        });
-    }
 
     bindNavClick(handler) {
         document.querySelectorAll('[data-route]').forEach((link) => {
@@ -23,33 +16,6 @@ export class DashboardView {
                 handler(link.dataset.route);
             });
         });
-    }
-
-    toLoadEquipmentsTable(equipments) {
-        this.equipmentsTable.innerHTML = '';
-
-        equipments.forEach((equipment) => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${equipment.name}</td>
-                <td>${equipment.local}</td>
-                <td>${equipment.status}</td>
-            `;
-            this.equipmentsTable.appendChild(row);
-        });
-    }
-
-    showEquipmentTotals({ active, preventive, maintenance }) {
-        this.activesTotal.textContent = active;
-        this.preventiveTotal.textContent = preventive;
-        this.maintenanceTotal.textContent = maintenance;
-    }
-    showError(message) {
-        this.errorEl.textContent = message;
-    }
-
-    clearError() {
-        this.errorEl.textContent = '';
     }
 
 }

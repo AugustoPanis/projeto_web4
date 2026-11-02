@@ -10,7 +10,6 @@ export class EquipamentView {
         this.patrymony = document.getElementById('patrymony');
     }
 
-
     bindNavClick(handler) {
         document.querySelectorAll('nav a[href]').forEach((link) => {
             link.addEventListener('click', (e) => {
@@ -19,7 +18,6 @@ export class EquipamentView {
             });
         });
     }
-
 
     createEquipament(handler) {
         this.saveEquipament.addEventListener('click', (execute) => {
@@ -35,29 +33,6 @@ export class EquipamentView {
         });
     }
 
-    fillForm(equipment) {
-        this.nameEquipament.value = equipment.name;
-        this.statusEquipment.value = equipment.status;
-        this.patrymony.value = equipment.patrymony;
-        this.locationEquipment.value = equipment.local;
-        this.dateAcquisition.value = equipment.acquisitionDate
-        ? equipment.acquisitionDate.slice(0, 10): '';;
-    }
-
-    toLoadEquipmentsTable(equipments) {
-        this.equipmentsTable.innerHTML = '';
-
-        equipments.forEach((equipment) => {
-            const row = document.createElement('tr');
-            row.dataset.id = equipment.id;
-            row.innerHTML = `
-                <td>${equipment.name}</td>
-                <td>${equipment.local}</td>
-                <td>${equipment.status}</td>
-            `;
-            this.equipmentsTable.appendChild(row);
-        });
-    }
 }
 
 

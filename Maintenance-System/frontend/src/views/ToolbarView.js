@@ -1,15 +1,15 @@
 export class ToolbarView {
     constructor() {
-        this.searchForm = document.getElementById('search-form');
         this.searchInput = document.getElementById('searchInput');
         this.searchButton = document.getElementById('searchButton');
-                this.deleteButton = document.getElementById('deleteButton');
+        this.deleteButton = document.getElementById('deleteButton');
         this.editButton = document.getElementById('editButton');
     }
-    searchEquipmentForButton(handler) {
-        this.searchForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            handler(this.searchInput.value);
+    searchEquipment(handler) {
+        this.searchButton.addEventListener('click', (execute) => {
+            execute.preventDefault();
+            const search = this.searchInput.value;
+            handler(search);
         });
     }
 
@@ -21,4 +21,3 @@ export class ToolbarView {
         this.editButton.addEventListener('click', handler);
     }
 }
-

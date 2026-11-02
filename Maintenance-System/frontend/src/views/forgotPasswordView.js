@@ -4,10 +4,12 @@ export class ForgotPasswordView {
     this.btnForgotPassword = document.getElementById('btn-forgotPassword');
     this.btnSingIn = document.getElementById('btn-signIn');
     this.errorEl = document.getElementById('error-message');
-
+    this.successEl = document.getElementById('success-message');
   }
-    bindSignIpClick(handler) {
-    this.btnSingIn.addEventListener('click', (execute) => {
+  
+  bindSignIpClick(handler) {
+    this.btnSingIn.addEventListener('click', () => {
+      this.clearError();
       handler();
     });
   }
@@ -25,6 +27,9 @@ export class ForgotPasswordView {
 
   showError(message) {
     this.errorEl.textContent = message;
+  }
+  showSuccess(message) {
+    this.successEl.textContent = message;
   }
 
   clearError() {

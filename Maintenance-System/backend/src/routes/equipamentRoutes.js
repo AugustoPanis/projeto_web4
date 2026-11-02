@@ -3,15 +3,16 @@ import express from "express";
 const router = express.Router();
 
 import equipamentController from "../controllers/equipamentController.js";
+import { requireAuth } from "../middlewares/auth.js";
 
-router.get("/", equipamentController.getAll);
+router.get("/", requireAuth, equipamentController.getAll);
 
-router.get("/:id", equipamentController.getId);
+router.get("/:id", requireAuth, equipamentController.getId);
 
-router.post("/", equipamentController.createEquipament);
+router.post("/", requireAuth, equipamentController.createEquipament);
 
-router.put("/:id", equipamentController.updateEquipament);
+router.put("/:id", requireAuth, equipamentController.updateEquipament);
 
-router.delete("/:id", equipamentController.deleteEquipament);
+router.delete("/:id", requireAuth, equipamentController.deleteEquipament);
 
 export default router;

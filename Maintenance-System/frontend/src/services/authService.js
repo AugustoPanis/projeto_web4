@@ -13,8 +13,8 @@ export const authService = {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const token = await userCredential.user.getIdToken();
       return {
-        user: {uid: userCredential.user.uid,email: userCredential.user.email}
-      };  
+        user: { uid: userCredential.user.uid, email: userCredential.user.email }
+      };
 
     } catch (error) { throw new ApiError('Erro ao fazer login.', { code: error.code }); }
   },
@@ -30,34 +30,22 @@ export const authService = {
   async logout() {
     try {
       await signOut(auth);
-      
-    } catch (error) {throw new ApiError('Erro ao sair.', { code: error.code });}
+    } catch (error) { throw new ApiError('Erro ao sair.', { code: error.code }); }
   },
 
-  isAuthenticated() {
+  async getToken() {
+    const user = auth.currentUser;
+    if (!user) return null;
     try {
-      return Boolean(auth.currentUser);
-    } catch (error) { throw new ApiError('Erro ao verificar autenticação.', { code: error.code }); }
+      return await user.getIdToken();
+    } catch (error) {
+      throw toApiError(error, 'Erro ao obter o token.');
+    }
   },
 
-async getToken() {
-  const user = auth.currentUser;
-  if (!user) return null;
-  try {
-    return await user.getIdToken();
-  } catch (error) {
-    throw toApiError(error, 'Erro ao obter o token.');
+  async waitForAuth() {
+    await auth.authStateReady();
+    return auth.currentUser;
   }
-},
-
-waitForAuth() {
-  return new Promise((resolve, reject) => {
-    const unsubscribe = onAuthStateChanged(
-      auth,
-      (user) => { unsubscribe(); resolve(user); },
-      (error) => { unsubscribe(); reject(toApiError(error)); }
-    );
-  });
-}
 
 }
