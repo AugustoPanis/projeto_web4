@@ -64,6 +64,7 @@
                                     <tr>
                                         <th>Nome</th>
                                         <th>Email</th>
+                                        <th>Telefone</th>
                                         <th>Especialidade</th>
                                     </tr>
                                 </thead>
@@ -87,23 +88,26 @@
                     <form id="formNewRegister">
                         <div class="mb-3">
                             <label for="name" class="form-label">Nome</label>
-                            <input type="text" class="form-control" id="name"
-                                placeholder="Digite o nome do técnico" required>
+                            <input type="text" class="form-control" id="name" placeholder="Digite o nome do técnico"
+                                required>
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email"
-                                placeholder="Digite o email do técnico" required>
+                            <input type="email" class="form-control" id="email" placeholder="Digite o email do técnico"
+                                required>
                         </div>
                         <div class="mb-3">
                             <label for="specialty" class="form-label">Especialidade</label>
                             <input class="form-control" id="specialty" placeholder="Digite a especialidade" required>
                         </div>
+                        <div class="mb-3">
+                            <label for="specialty" class="form-label">Telefone</label>
+                            <input class="form-control" id="phone" placeholder="Digite seu telefone" required>
+                        </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button id="save" type="submit" form="formNovoTecnicians'"
-                        class="btn btn-primary">Salvar</button>
+                    <button id="save" type="submit" form="formNovoTecnicians'" class="btn btn-primary">Salvar</button>
                 </div>
             </div>
         </div>

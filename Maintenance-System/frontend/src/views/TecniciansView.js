@@ -4,6 +4,7 @@ export class TechniciansView {
         this.name = document.getElementById('name');
         this.email = document.getElementById('email');
         this.specialty = document.getElementById('specialty');
+        this.phone = document.getElementById('phone');
         this.saveTecnician = document.getElementById('save');    
     }
 
@@ -13,8 +14,9 @@ export class TechniciansView {
             const name = this.name.value;
             const email = this.email.value;
             const specialty = this.specialty.value;
+            const phone = this.phone.value;
 
-            handler({ name, email, specialty });
+            handler({ name, email, specialty, phone });
         });
     }
 
@@ -26,8 +28,10 @@ export class TechniciansView {
             row.dataset.id = technician.id;
             row.innerHTML = `
                 <td>${technician.name}</td>
-                <td>${technician.specialty}</td>
                 <td>${technician.email}</td>
+                <td>${technician.phone}</td>
+                <td>${technician.specialty}</td>
+
             `;
             this.table.appendChild(row);
         });
@@ -35,7 +39,8 @@ export class TechniciansView {
 
     fillForm(equipment) {
         this.name.value = equipment.name;
-        this.email.value = equipment.email;
         this.specialty.value = equipment.specialty;
+        this.email.value = equipment.email;
+
     }
 }
