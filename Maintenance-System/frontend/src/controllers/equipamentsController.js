@@ -28,9 +28,11 @@ export const equipamentsController = {
     this.Equipamentview.createEquipament((data) => this.createEquipament(data));
     this.gridView.bindRowSelect((id) => { this.selectedId = id; });
     this.gridView.bindRowEditSelect((id) => { this.selectedId = id; this.editEquipment(id); });
-    this.ToolbarView.searchEquipment((search) => this.searchEquipment(search));
+    this.ToolbarView.bindEditClick(() => this.editEquipment(this.selectedId));
+
+
+    this.ToolbarView.search((search) => this.searchEquipment(search));
     this.ToolbarView.bindDeleteClick(() => this.deleteEquipment());
-    this.ToolbarView.bindEditClick(() => this.editEquipmentForButton(this.selectedId));
     this.toLoadEquipmentsTable();
     this.modalView.bindModalReset();
     this.navView.bindlogoutClick(() => this.logout());
@@ -39,7 +41,7 @@ export const equipamentsController = {
   async logout() {
     try {
       await authService.logout();
-      navigate('/login');
+      navigate('/login', true);
     } catch (err) {
       this.toast.error(getFriendlyErrorMessage(err.code));
     }
@@ -55,33 +57,21 @@ export const equipamentsController = {
   },
 
   async editEquipment(id) {
+    if (!id) {
+      this.toast.error('Selecione um equipamento para editar.');
+      return;
+    }
+
     try {
       const equipment = await equipmentService.getById(id);
       this.editingId = id;
-      this.modalView.fillForm(equipment);
+      this.Equipamentview.fillForm(equipment);
       this.modalView.setModalMode(true);
       this.modalView.openModal();
     } catch (err) {
       console.error(err);
       this.toast.error(getFriendlyErrorMessage(err.code));
     }
-
-  },
-  async editEquipmentForButton(id) {
-    if (!this.selectedId) {
-      this.toast.error('Selecione um equipamento para editar.');
-      return;
-    }
-    try {
-      const equipment = await equipmentService.getById(id);
-      this.editingId = id;
-      this.modalView.fillForm(equipment);
-      this.modalView.setModalMode(true);
-      this.modalView.openModal();
-    } catch (err) {
-      this.toast.error(getFriendlyErrorMessage(err.code));
-    }
-
   },
 
   async deleteEquipment() {
@@ -105,10 +95,11 @@ export const equipamentsController = {
     try {
       if (this.editingId) {
         await equipmentService.putEquipament(this.editingId, equipament);
+        this.toast.success('Equipamento atualizado com sucesso!');
       } else {
         await equipmentService.createEquipament(equipament);
+        this.toast.success('Equipamento cadastrado com sucesso!');
       }
-      this.toast.success('Equipamento cadastrado com sucesso!');
       this.modalView.closeModal();
       await this.toLoadEquipmentsTable();
     } catch (err) {
@@ -119,7 +110,7 @@ export const equipamentsController = {
   async toLoadEquipmentsTable() {
     try {
       const equipments = await equipmentService.loadEquipments();
-      this.gridView.toLoadEquipmentsTable(equipments);
+      this.Equipamentview.toLoadEquipmentsTable(equipments);
     } catch (err) {
       this.toast.error(getFriendlyErrorMessage(err.code));
     }

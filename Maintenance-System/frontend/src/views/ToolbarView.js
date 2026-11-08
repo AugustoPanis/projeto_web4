@@ -5,7 +5,7 @@ export class ToolbarView {
         this.deleteButton = document.getElementById('deleteButton');
         this.editButton = document.getElementById('editButton');
     }
-    searchEquipment(handler) {
+    search(handler) {
         this.searchButton.addEventListener('click', (execute) => {
             execute.preventDefault();
             const search = this.searchInput.value;

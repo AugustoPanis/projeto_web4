@@ -1,17 +1,17 @@
 export class GridView {
     constructor() {
-        this.equipmentsTable = document.getElementById('equipmentsTable');
-        this.form = document.getElementById('formNovoEquipamento');
+        this.table = document.getElementById('table');
+        this.form = document.getElementById('formNewRegister');
     }
 
     clearSelection() {
-        this.equipmentsTable
+        this.table
             .querySelectorAll('tr.table-active')
             .forEach((r) => r.classList.remove('table-active'));
     }
 
     bindRowSelect(handler) {
-        this.equipmentsTable.addEventListener('click', (e) => {
+        this.table.addEventListener('click', (e) => {
             const row = e.target.closest('tr');
             if (!row) return;
             if (e.detail > 1) return;
@@ -31,7 +31,7 @@ export class GridView {
     }
 
     bindRowEditSelect(handler) {
-        this.equipmentsTable.addEventListener('dblclick', (e) => {
+        this.table.addEventListener('dblclick', (e) => {
             const row = e.target.closest('tr');
             if (!row) return;
 
@@ -41,18 +41,5 @@ export class GridView {
         });
     }
 
-    toLoadEquipmentsTable(equipments) {
-        this.equipmentsTable.innerHTML = '';
 
-        equipments.forEach((equipment) => {
-            const row = document.createElement('tr');
-            row.dataset.id = equipment.id;
-            row.innerHTML = `
-                <td>${equipment.name}</td>
-                <td>${equipment.local}</td>
-                <td>${equipment.status}</td>
-            `;
-            this.equipmentsTable.appendChild(row);
-        });
-    }
 }

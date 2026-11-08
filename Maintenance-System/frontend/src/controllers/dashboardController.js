@@ -20,7 +20,7 @@ export const dashboardController = {
   },
 
   bindEvents() {
-    this.toolbarView.searchEquipment((search) => this.searchEquipment(search));
+    this.toolbarView.search((search) => this.searchEquipment(search));
     this.navView.bindNavClick((route) => navigate(route));
     this.navView.bindlogoutClick(() => this.logout());
     this.toLoadEquipments();
@@ -28,7 +28,7 @@ export const dashboardController = {
   async logout() {
     try {
       await authService.logout();
-      navigate('/login');
+      navigate('/login', true);
     } catch (err) {
       this.toast.error(getFriendlyErrorMessage(err.code));
     }
@@ -37,7 +37,7 @@ export const dashboardController = {
   async searchEquipment(search) {
     try {
       const equipments = await equipmentService.searchEquipment(search);
-      this.gridView.toLoadEquipmentsTable(equipments);
+      this.view.toLoadEquipmentsTable(equipments);
     } catch (err) {
       console.error(err);
       this.toast.error(getFriendlyErrorMessage(err.code));
@@ -48,7 +48,7 @@ export const dashboardController = {
     try {
       const equipments = await equipmentService.loadEquipments();
 
-      this.gridView.toLoadEquipmentsTable(equipments);
+      this.view.toLoadEquipmentsTable(equipments);
       this.view.showEquipmentTotals({
         active: equipments.filter(e => e.status === 'Ativo').length,
         preventive: equipments.filter(e => e.status === 'Manutenção Preventiva').length,

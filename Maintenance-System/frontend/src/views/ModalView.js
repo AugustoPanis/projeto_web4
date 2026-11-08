@@ -1,9 +1,9 @@
 export class ModalView {
     constructor() {
-        this.saveEquipament = document.getElementById('saveEquipament');
-        this.form = document.getElementById('formNovoEquipamento');
-        this.modalEl = document.getElementById('modalNovoEquipamento');
-        this.modalTitle = document.getElementById('modalNovoEquipamentoLabel');
+        this.save = document.getElementById('save');
+        this.form = document.getElementById('formNewRegister');
+        this.modalEl = document.getElementById('modalNewRegister');
+        this.modalTitle = document.getElementById('modalNewRegisterLabel');
         this.statusEquipment = document.getElementById('statusEquipment');
         this.nameEquipament = document.getElementById('nameEquipment');
         this.dateAcquisition = document.getElementById('dateAcquisition');
@@ -31,16 +31,7 @@ export class ModalView {
     }
 
     setModalMode(isEditing) {
-        this.modalTitle.textContent = isEditing ? 'Editar Equipamento' : 'Novo Equipamento';
-        this.saveEquipament.textContent = isEditing ? 'Atualizar' : 'Salvar';
-    }
-
-    fillForm(equipment) {
-        this.nameEquipament.value = equipment.name;
-        this.statusEquipment.value = equipment.status;
-        this.patrymony.value = equipment.patrymony;
-        this.locationEquipment.value = equipment.local;
-        this.dateAcquisition.value = equipment.acquisitionDate
-            ? equipment.acquisitionDate.slice(0, 10) : '';;
+        this.modalTitle.textContent = isEditing ? 'Editar' : 'Novo';
+        this.save.textContent = isEditing ? 'Atualizar' : 'Salvar';
     }
 }

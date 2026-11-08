@@ -49,7 +49,7 @@
                             <div class="col-md-3 text-md-end">
                                 <div class="btn-group" role="group">
                                     <button id="newEquipament" type="button" class="btn btn-success"
-                                        data-bs-toggle="modal" data-bs-target="#modalNovoEquipamento">Novo</button>
+                                        data-bs-toggle="modal" data-bs-target="#modalNewRegister">Novo</button>
                                     <button id="editButton" type="button" class="btn btn-primary">Editar</button>
                                     <button id="deleteButton" type="button" class="btn btn-danger">Excluir</button>
                                 </div>
@@ -68,7 +68,7 @@
                                         <th>Status</th>
                                     </tr>
                                 </thead>
-                                <tbody id="equipmentsTable"></tbody>
+                                <tbody id="table"></tbody>
                             </table>
                         </div>
                     </div>
@@ -76,16 +76,16 @@
             </main>
         </div>
     </div>
-    <div class="modal fade" id="modalNovoEquipamento" tabindex="-1" aria-labelledby="modalNovoEquipamentoLabel"
+    <div class="modal fade" id="modalNewRegister" tabindex="-1" aria-labelledby="modalNewRegisterLabel"
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalNovoEquipamentoLabel">Novo Equipamento</h5>
+                    <h5 class="modal-title" id="modalNewRegisterLabel">Novo Equipamento</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="formNovoEquipamento">
+                    <form id="formNewRegister">
                         <div class="mb-3">
                             <label for="nomeEquipamento" class="form-label">Nome</label>
                             <input type="text" class="form-control" id="nameEquipment"
@@ -130,7 +130,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button id="saveEquipament" type="submit" form="formNovoEquipamento"
+                    <button id="save" type="submit" form="formNovoEquipamento"
                         class="btn btn-primary">Salvar</button>
                 </div>
             </div>

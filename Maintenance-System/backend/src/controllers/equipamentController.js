@@ -10,13 +10,11 @@ const getAll = async (req, res) => {
 };
 
 const createEquipament = async (req, res) => {
-    console.log("[controller] body:", req.body);
     const result = await equipmentService.createEquipament(req.body);
     return res.status(201).json(result);
 };
 
 const deleteEquipament = async (req, res) => {
-    console.log("[controller] body:", req.body);
     const { id } = req.params;
     await equipmentService.deleteEquipament(id);
     return res.status(204).send();
@@ -31,8 +29,6 @@ const getId = async (req, res) => {
 };
 
 const updateEquipament = async (req, res) => {
-        console.log("[controller] body:", req.body,"[controller] teste:", req.params);
-
     const { id } = req.params;
     const result = await equipmentService.update(id, req.body);
     return res.json(result);

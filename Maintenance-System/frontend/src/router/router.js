@@ -3,6 +3,7 @@ import { registerController } from '../controllers/registerController.js';
 import { forgotPasswordController } from '../controllers/forgotPasswordController.js';
 import { dashboardController } from '../controllers/dashboardController.js';
 import { equipamentsController } from '../controllers/equipamentsController.js';
+import { techniciansController } from '../controllers/techniciansController.js';
 
 
 const routes = {
@@ -16,11 +17,11 @@ const routes = {
     controller: equipamentsController,
     public: false
   },
-  // '/tenicos': {
-  //   page: './pages/tenicos/tenicos.html',
-  //   controller: tenicosController,
-  //   public: true
-  // },
+  '/technicians': {
+    page: './pages/technicians/technicians.html',
+    controller: techniciansController,
+    public: true
+  },
   '/register': {
     page: './pages/register/register.html',
     controller: registerController,
@@ -50,15 +51,15 @@ export async function router() {
 
   const user = await route.controller.checkAuth();
 
-  if (!route.public && !user) {
-    navigate('/login', true);
-    return;
-  }
+  // if (!route.public && !user) {
+  //   navigate('/login', true);
+  //   return;
+  // }
 
-  if (route.public && user) {
-    navigate('/dashboard', true);
-    return;
-  }
+  // if (route.public && user) {
+  //   navigate('/dashboard', true);
+  //   return;
+  // }
 
   const response = await fetch(route.page);
   const html = await response.text();

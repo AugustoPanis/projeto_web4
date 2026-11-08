@@ -1,8 +1,8 @@
 export class EquipamentView {
     constructor() {
 
-        this.equipmentsTable = document.getElementById('equipmentsTable');
-        this.saveEquipament = document.getElementById('saveEquipament');
+        this.table = document.getElementById('table');
+        this.saveEquipament = document.getElementById('save');
         this.statusEquipment = document.getElementById('statusEquipment');
         this.nameEquipament = document.getElementById('nameEquipment');
         this.dateAcquisition = document.getElementById('dateAcquisition');
@@ -11,7 +11,7 @@ export class EquipamentView {
     }
 
     createEquipament(handler) {
-        this.saveEquipament.addEventListener('submit', (execute) => {
+        this.saveEquipament.addEventListener('click', (execute) => {
             execute.preventDefault();
             const name = this.nameEquipament.value;
             const status = this.statusEquipment.value;
@@ -22,6 +22,30 @@ export class EquipamentView {
             handler({ name, status, local, acquisitionDate, patrymony });
 
         });
+    }
+
+    toLoadEquipmentsTable(equipments) {
+        this.table.innerHTML = '';
+
+        equipments.forEach((equipment) => {
+            const row = document.createElement('tr');
+            row.dataset.id = equipment.id;
+            row.innerHTML = `
+                <td>${equipment.name}</td>
+                <td>${equipment.local}</td>
+                <td>${equipment.status}</td>
+            `;
+            this.table.appendChild(row);
+        });
+    }
+
+        fillForm(equipment) {
+        this.nameEquipament.value = equipment.name;
+        this.statusEquipment.value = equipment.status;
+        this.patrymony.value = equipment.patrymony;
+        this.locationEquipment.value = equipment.local;
+        this.dateAcquisition.value = equipment.acquisitionDate
+            ? equipment.acquisitionDate.slice(0, 10) : '';;
     }
 
 }
