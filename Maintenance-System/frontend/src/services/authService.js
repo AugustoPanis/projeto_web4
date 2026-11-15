@@ -1,6 +1,5 @@
 import { auth } from './firebase.js';
 import { signInWithEmailAndPassword, signOut, sendPasswordResetEmail } from 'firebase/auth'
-import { onAuthStateChanged } from 'firebase/auth';
 import { ApiError } from '../errors/ApiError.js';
 
 

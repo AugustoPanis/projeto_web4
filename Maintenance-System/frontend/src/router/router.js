@@ -5,7 +5,7 @@ import { dashboardController } from '../controllers/dashboardController.js';
 import { equipamentsController } from '../controllers/equipamentsController.js';
 import { techniciansController } from '../controllers/techniciansController.js';
 import { categoryController } from '../controllers/categoryController.js';
-
+import { locationController } from '../controllers/locationController.js';
 
 const routes = {
   '/login': {
@@ -41,6 +41,11 @@ const routes = {
   '/category': {
     page: './pages/category/category.html',
     controller: categoryController,
+    public: false
+  },
+  '/location': {
+    page: './pages/location/location.html',
+    controller: locationController,
     public: false
   }
 };

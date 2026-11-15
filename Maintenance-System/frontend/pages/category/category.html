@@ -15,11 +15,12 @@
             <aside class="col-auto bg-dark text-white min-vh-100 p-2 d-flex flex-column" style="width: 130px;">
                 <h4 class="text-white fs-5 mb-4">Menu</h4>
                 <nav class="nav flex-column">
-                    <a class="nav-link text-white px-0 active" href="/dashboard">Dashboard</a>
+                    <a class="nav-link text-white px-0" href="/dashboard">Dashboard</a>
                     <a class="nav-link text-white px-0" href="/equipment">Equipamentos</a>
                     <a class="nav-link text-white px-0" href="/technicians">Técnicos</a>
-                    <a class="nav-link text-white px-0 active" href="/category">Categorias</a>
+                    <a class="nav-link text-white px-0" href="/category">Categorias</a>
                     <a class="nav-link text-white px-0" href="/maintanence">Ordem de serviço</a>
+                    <a class="nav-link text-white px-0" href="/location">Locais</a>
                 </nav>
                 <button id="logoutButton" type="button"
                     class="nav-link text-white px-0 py-1 mt-auto d-flex align-items-center gap-1 small" title="Sair"
@@ -83,7 +84,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalNewRegisterLabel">Novo Equipamento</h5>
+                    <h5 class="modal-title" id="modalNewRegisterLabel">Nova Categoria</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
                 </div>
                 <div class="modal-body">
@@ -91,7 +92,7 @@
                         <div class="mb-3">
                             <label for="descriptionCategory" class="form-label">Descrição da categoria</label>
                             <input type="text" class="form-control" id="descriptionCategory"
-                                placeholder="Digite o nome do equipamento" required>
+                                placeholder="Digite o nome da categoria" required>
                         </div>
                         <div class="mb-3">
                             <label for="weight" class="form-label">Peso</label>
@@ -105,8 +106,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button id="save" type="submit" form="formNovoEquipamento"
-                        class="btn btn-primary">Salvar</button>
+                    <button id="save" type="submit" form="formNovoEquipamento" class="btn btn-primary">Salvar</button>
                 </div>
             </div>
         </div>
