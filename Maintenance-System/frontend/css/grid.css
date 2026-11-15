@@ -9,11 +9,11 @@
     pointer-events: none;
   }
 
-  #equipmentsTable tr {
+  #table tr {
     cursor: pointer;
   }
 
-  #equipmentsTable tr.table-active td {
+  #table tr.table-active td {
     font-weight: 500;
   }
 

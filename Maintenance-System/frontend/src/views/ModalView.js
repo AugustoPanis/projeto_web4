@@ -9,6 +9,9 @@ export class ModalView {
         this.dateAcquisition = document.getElementById('dateAcquisition');
         this.locationEquipment = document.getElementById('locationEquipment');
         this.patrymony = document.getElementById('patrymony');
+        this.descriptionCategory = document.getElementById('descriptionCategory');
+        this.weight = document.getElementById('weight');
+        this.height = document.getElementById('height');
     }
 
     bindModalReset(onClose) {

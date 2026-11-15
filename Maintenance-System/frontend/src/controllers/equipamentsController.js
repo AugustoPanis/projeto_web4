@@ -50,7 +50,7 @@ export const equipamentsController = {
   async searchEquipment(search) {
     try {
       const equipments = await equipmentService.searchEquipment(search);
-      this.gridView.toLoadEquipmentsTable(equipments);
+      this.Equipamentview.toLoadEquipmentsTable(equipments);
     } catch (err) {
       this.toast.error(getFriendlyErrorMessage(err.code));
     }

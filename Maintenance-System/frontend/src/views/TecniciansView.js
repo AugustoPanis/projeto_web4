@@ -41,6 +41,6 @@ export class TechniciansView {
         this.name.value = equipment.name;
         this.specialty.value = equipment.specialty;
         this.email.value = equipment.email;
-
+        this.phone.value = equipment.phone;
     }
 }

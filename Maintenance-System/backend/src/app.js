@@ -15,9 +15,12 @@ import equipamentRoutes from "./routes/equipamentRoutes.js";
 import clientRoutes from "./routes/clientRoutes.js";
 import { requireAuth } from "./middlewares/auth.js";
 import technicianRoutes from "./routes/technicianRoutes.js";
+import categoryRoutes from "./routes/categoryRoutes.js";
 
-app.use("/equipament", requireAuth, equipamentRoutes)
+
+app.use("/equipament", requireAuth, equipamentRoutes);
 app.use("/technician", requireAuth, technicianRoutes);
+app.use("/category", requireAuth, categoryRoutes);
 app.use("/client", clientRoutes);
 app.use(errorHandler);
 
