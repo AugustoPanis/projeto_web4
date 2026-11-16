@@ -8,8 +8,8 @@ export class EquipamentView {
         this.dateAcquisition = document.getElementById('dateAcquisition');
         this.locationEquipment = document.getElementById('locationEquipment');
         this.patrymony = document.getElementById('patrymony');
-        this.loadLocation = document.getElementById('loadLocation');
-
+        this.loadLocation = document.getElementById('locationEquipment');
+        this.loadCategory = document.getElementById('categoryEquipment');
     }
 
     createEquipament(handler) {
@@ -20,8 +20,9 @@ export class EquipamentView {
             const patrymony = this.patrymony.value;
             const local = this.locationEquipment.value;
             const acquisitionDate = this.dateAcquisition.value;
+            const category = this.loadCategory.value;
 
-            handler({ name, status, local, acquisitionDate, patrymony });
+            handler({ name, status, local, acquisitionDate, patrymony, category });
 
         });
     }
@@ -34,6 +35,8 @@ export class EquipamentView {
             row.dataset.id = equipment.id;
             row.innerHTML = `
                 <td>${equipment.name}</td>
+                <td>${equipment.patrymony}</td>
+                <td>${equipment.category}</td>
                 <td>${equipment.local}</td>
                 <td>${equipment.status}</td>
             `;
@@ -42,19 +45,24 @@ export class EquipamentView {
     }
 
     toLoadLocationsForm(location) {
-        this.loadLocation.innerHTML = '';
-        console.log('location', location);
         location.forEach((location) => {
             const options = document.createElement('option');
-            options.value = location.id;
-            options.textContent = location.city;
+            options.value = `${location.description} - ${location.city}`;
+            options.textContent = `${location.description} - ${location.city}`;
             this.loadLocation.appendChild(options);
         });
     }
 
+    toLoadCategoryForm(category) {
+        category.forEach((category) => {
+            const options = document.createElement('option');
+            options.value = `${category.descriptionCategory}`;
+            options.textContent = `${category.descriptionCategory}`;
+            this.loadCategory.appendChild(options);
+        });
+    }
 
-
-        fillForm(equipment) {
+    fillForm(equipment) {
         this.nameEquipament.value = equipment.name;
         this.statusEquipment.value = equipment.status;
         this.patrymony.value = equipment.patrymony;

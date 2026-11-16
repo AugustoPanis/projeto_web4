@@ -23,6 +23,7 @@ model equipament {
   patrymony String @unique
   status String
   local String
+  category String
   acquisitionDate DateTime?
   createdAt DateTime @default(now())
   updatedAt DateTime  @updatedAt
@@ -49,6 +50,7 @@ model category {
 
 model location {
   id        Int      @id @default(autoincrement())
+  description String
   cep       String   @unique
   street    String?
   addition  String?

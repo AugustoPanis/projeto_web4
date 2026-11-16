@@ -10,6 +10,8 @@ export class LocationView {
         this.city = document.getElementById('city');
         this.state = document.getElementById('state');
         this.searchLocation = document.getElementById('searchLocation');
+        this.description = document.getElementById('description');
+
     }
 
     createLocation(handler) {
@@ -21,8 +23,9 @@ export class LocationView {
             const neighborhood = this.neighborhood.value;
             const city = this.city.value;
             const state = this.state.value;
+            const description = this.description.value;
 
-            handler({ cep, street, addition, neighborhood, city, state });
+            handler({ cep, street, addition, neighborhood, city, state, description });
 
         });
     }
@@ -42,6 +45,7 @@ export class LocationView {
             const row = document.createElement('tr');
             row.dataset.id = location.id;
             row.innerHTML = `
+                <td>${location.description}</td>
                 <td>${location.cep}</td>
                 <td>${location.street}</td>
                 <td>${location.addition}</td>
@@ -54,6 +58,7 @@ export class LocationView {
     }
 
     fillForm(location) {
+        this.description.value = location.description;
         this.cep.value = location.cep;
         this.street.value = location.street;
         this.addition.value = location.addition;

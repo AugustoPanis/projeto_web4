@@ -67,6 +67,8 @@
                                 <thead>
                                     <tr>
                                         <th>Equipamento</th>
+                                        <th>Patrimônio</th>
+                                        <th>Categoria</th>                    
                                         <th>Local</th>
                                         <th>Status</th>
                                     </tr>
@@ -115,13 +117,13 @@
                             <label for="locationEquipment" class="form-label">Local</label>
                             <select class="form-select" id="locationEquipment" required>
                                 <option value="" selected disabled>Selecione o local</option>
-                                <option id="loadLocation"></option>
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="category" class="form-label">Categoria do Equipamento</label>
-                            <input type="text" class="form-control" id="category" placeholder="Digite a categoria"
-                                required>
+                            <label for="categoryEquipment" class="form-label">Categoria</label>
+                            <select class="form-select" id="categoryEquipment" required>
+                                <option value="" selected disabled>Selecione o categoria</option>
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label for="photo" class="form-label">Foto do Equipamento</label>

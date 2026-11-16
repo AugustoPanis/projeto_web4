@@ -7,6 +7,7 @@ import { NavView } from '../views/NavView.js';
 import { GridView } from '../views/GridView.js';
 import { equipmentService } from '../services/equipmentService.js';
 import { locationService } from '../services/locationService.js';
+import { categoryService } from '../services/categoryService.js';
 import { authService } from '../services/authService.js';
 import { getFriendlyErrorMessage } from '../utils/errorMessages.js';
 import { navigate } from '../router/router.js';
@@ -27,7 +28,6 @@ export const equipamentsController = {
   bindEvents() {
     this.navView.bindNavClick((route) => navigate(route));
     this.Equipamentview.createEquipament((data) => this.createEquipament(data));
-    this.Equipamentview.toLoadLocationsForm(() => this.toLoadLocationForm());
     this.gridView.bindRowSelect((id) => { this.selectedId = id; });
     this.gridView.bindRowEditSelect((id) => { this.selectedId = id; this.editEquipment(id); });
     this.ToolbarView.bindEditClick(() => this.editEquipment(this.selectedId));
@@ -36,6 +36,8 @@ export const equipamentsController = {
     this.ToolbarView.search((search) => this.searchEquipment(search));
     this.ToolbarView.bindDeleteClick(() => this.deleteEquipment());
     this.toLoadEquipmentsTable();
+    this.toLoadLocation();
+    this.toLoadCategory()
     this.modalView.bindModalReset();
     this.navView.bindlogoutClick(() => this.logout());
 
@@ -49,9 +51,8 @@ export const equipamentsController = {
     }
   },
 
-    async toLoadLocationForm() {
+    async toLoadLocation() {
     try {
-      console.log('Loading locations...');
       const locations = await locationService.getAll();
       this.Equipamentview.toLoadLocationsForm(locations);
     } catch (err) {
@@ -59,6 +60,14 @@ export const equipamentsController = {
     }
   },
 
+  async toLoadCategory() {
+    try {
+      const category = await categoryService.getAll();
+      this.Equipamentview.toLoadCategoryForm(category);
+    } catch (err) {
+      this.toast.error(getFriendlyErrorMessage(err.code));
+    }
+  },
 
   async searchEquipment(search) {
     try {
