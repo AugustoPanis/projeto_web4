@@ -6,6 +6,7 @@ import { ModalView } from '../views/ModalView.js';
 import { NavView } from '../views/NavView.js';
 import { GridView } from '../views/GridView.js';
 import { equipmentService } from '../services/equipmentService.js';
+import { locationService } from '../services/locationService.js';
 import { authService } from '../services/authService.js';
 import { getFriendlyErrorMessage } from '../utils/errorMessages.js';
 import { navigate } from '../router/router.js';
@@ -26,6 +27,7 @@ export const equipamentsController = {
   bindEvents() {
     this.navView.bindNavClick((route) => navigate(route));
     this.Equipamentview.createEquipament((data) => this.createEquipament(data));
+    this.Equipamentview.toLoadLocationsForm(() => this.toLoadLocationForm());
     this.gridView.bindRowSelect((id) => { this.selectedId = id; });
     this.gridView.bindRowEditSelect((id) => { this.selectedId = id; this.editEquipment(id); });
     this.ToolbarView.bindEditClick(() => this.editEquipment(this.selectedId));
@@ -46,6 +48,17 @@ export const equipamentsController = {
       this.toast.error(getFriendlyErrorMessage(err.code));
     }
   },
+
+    async toLoadLocationForm() {
+    try {
+      console.log('Loading locations...');
+      const locations = await locationService.getAll();
+      this.Equipamentview.toLoadLocationsForm(locations);
+    } catch (err) {
+      this.toast.error(getFriendlyErrorMessage(err.code));
+    }
+  },
+
 
   async searchEquipment(search) {
     try {

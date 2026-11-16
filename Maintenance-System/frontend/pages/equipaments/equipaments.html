@@ -112,9 +112,11 @@
                             <input type="date" class="form-control" id="dateAcquisition" required>
                         </div>
                         <div class="mb-3">
-                            <label for="localEquipamento" class="form-label">Local</label>
-                            <input type="text" class="form-control" id="locationEquipment" placeholder="Digite o local"
-                                required>
+                            <label for="locationEquipment" class="form-label">Local</label>
+                            <select class="form-select" id="locationEquipment" required>
+                                <option value="" selected disabled>Selecione o local</option>
+                                <option id="loadLocation"></option>
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label for="category" class="form-label">Categoria do Equipamento</label>

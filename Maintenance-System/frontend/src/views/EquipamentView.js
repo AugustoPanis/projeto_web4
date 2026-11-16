@@ -8,6 +8,8 @@ export class EquipamentView {
         this.dateAcquisition = document.getElementById('dateAcquisition');
         this.locationEquipment = document.getElementById('locationEquipment');
         this.patrymony = document.getElementById('patrymony');
+        this.loadLocation = document.getElementById('loadLocation');
+
     }
 
     createEquipament(handler) {
@@ -38,6 +40,19 @@ export class EquipamentView {
             this.table.appendChild(row);
         });
     }
+
+    toLoadLocationsForm(location) {
+        this.loadLocation.innerHTML = '';
+        console.log('location', location);
+        location.forEach((location) => {
+            const options = document.createElement('option');
+            options.value = location.id;
+            options.textContent = location.city;
+            this.loadLocation.appendChild(options);
+        });
+    }
+
+
 
         fillForm(equipment) {
         this.nameEquipament.value = equipment.name;
