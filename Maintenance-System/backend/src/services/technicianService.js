@@ -54,7 +54,7 @@ const updateTechnician = async (id, data) => {
 
     if (data.email) {
         const emailExistente = await technicianRepository.findByEmail(data.email);
-        if (emailExistente && emailExistente._id?.toString() !== equipamentId && emailExistente.id !== equipamentId) {
+        if (emailExistente && emailExistente._id?.toString() !== equipamentId ) {
             throw new AppError("E-mail já cadastrado", {
                 statusCode: 409,
                 code: "EMAIL_ALREADY_IN_USE",

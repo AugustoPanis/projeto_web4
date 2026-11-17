@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard - Sistema de Manutenção</title>
+    <link rel="stylesheet" href="./css/grid.css">
+
+</head>
+
+<body class="bg-light">
+    <div class="container-fluid">
+        <div class="row">
+            <aside class="col-auto bg-dark text-white min-vh-100 p-2 d-flex flex-column" style="width: 130px;">
+                <h4 class="text-white fs-5 mb-4">Menu</h4>
+                <nav class="nav flex-column">
+                    <a class="nav-link text-white px-0" href="/dashboard">Dashboard</a>
+                    <a class="nav-link text-white px-0" href="/equipment">Equipamentos</a>
+                    <a class="nav-link text-white px-0" href="/technicians">Técnicos</a>
+                    <a class="nav-link text-white px-0 " href="/category">Categorias</a>
+                    <a class="nav-link text-white px-0" href="/work-order">Ordem de serviço</a>
+                    <a class="nav-link text-white px-0" href="/location">Locais</a>
+                </nav>
+                <button id="logoutButton" type="button"
+                    class="nav-link text-white px-0 py-1 mt-auto d-flex align-items-center gap-1 small" title="Sair"
+                    aria-label="Sair">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        viewBox="0 0 16 16" aria-hidden="true">
+                        <path fill-rule="evenodd"
+                            d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z" />
+                        <path fill-rule="evenodd"
+                            d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z" />
+                    </svg>
+                    <span>Sair</span>
+                </button>
+            </aside>
+            <main class="col p-4">
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body">
+                        <div class="row g-4 align-items-center justify-content-between">
+                            <div class="col-md-8">
+                                <div class="input-group">
+                                    <form id="search-form" class="input-group">
+                                        <input id="searchInput" type="text" class="form-control"
+                                            placeholder="Pesquisar ordem de serviço...">
+                                        <button type="submit" id="searchButton"
+                                            class="btn btn-primary">Pesquisar</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="col-md-3 text-md-end">
+                                <div class="btn-group" role="group">
+                                    <button id="newEquipament" type="button" class="btn btn-success"
+                                        data-bs-toggle="modal" data-bs-target="#modalNewRegister">Novo</button>
+                                    <button id="editButton" type="button" class="btn btn-primary">Editar</button>
+                                    <button id="deleteButton" type="button" class="btn btn-danger">Excluir</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Descrição da OS</th>
+                                        <th>Equipamento</th>
+                                        <th>Técnico</th>
+                                        <th>Status</th>
+                                        <th>Prioridade</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="table"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <div class="modal fade" id="modalNewRegister" tabindex="-1" aria-labelledby="modalNewRegisterLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalNewRegisterLabel">Nova Ordem de Serviço</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formNewRegister">
+                        <div class="mb-3">
+                            <label for="description" class="form-label d-block mb-2">Descrição da Ordem de Serviço</label>
+                            <input type="text" class="form-control" id="description" placeholder="Digite a descrição da OS" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="equipament" class="form-label">Equipamento</label>
+                            <select class="form-select" id="equipament" required>
+                                <option value="" selected disabled>Selecione o equipamento</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="technician" class="form-label">Técnico</label>
+                            <select class="form-select" id="technician" required>
+                                <option value="" selected disabled>Selecione o técnico</option>''
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="statusOs" class="form-label">Status</label>
+                            <select class="form-select" id="statusOs" required>
+                                <option value="" selected disabled>Selecione o status</option>
+                                <option value="Pronto">Pronto</option>
+                                <option value="Em Andamento">Em andamento</option>
+                                <option value="Aguardando Inicio">Aguardando Inicio</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="priority" class="form-label">Prioridade</label>
+                            <select class="form-select" id="priority" required>
+                                <option value="" selected disabled>Selecione a prioridade</option>
+                                <option value="Alta">Alta</option>
+                                <option value="Média">Média</option>
+                                <option value="Baixa">Baixa</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button id="save" type="submit" form="formNovoEquipamento" class="btn btn-primary">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center text-muted py-2 mt-1 border-top">
+        <p class="mb-0 small">2026 Sistema de Controle e Manutenção de Equipamentos ADS2026-2</p>
+    </footer>
+    <div id="toast-container" class="toast-container-custom" aria-live="polite" aria-atomic="true"></div>
+</body>
+
+</html>

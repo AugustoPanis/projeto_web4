@@ -6,6 +6,8 @@ import { equipamentsController } from '../controllers/equipamentsController.js';
 import { techniciansController } from '../controllers/techniciansController.js';
 import { categoryController } from '../controllers/categoryController.js';
 import { locationController } from '../controllers/locationController.js';
+import { workOrderController } from '../controllers/workOrderController.js';
+
 
 const routes = {
   '/login': {
@@ -46,6 +48,11 @@ const routes = {
   '/location': {
     page: './pages/location/location.html',
     controller: locationController,
+    public: false
+  },
+  '/work-order': {
+    page: './pages/workOrder/workOrder.html',
+    controller: workOrderController,
     public: false
   }
 };

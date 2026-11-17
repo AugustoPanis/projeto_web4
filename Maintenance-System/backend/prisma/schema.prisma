@@ -27,6 +27,7 @@ model equipament {
   acquisitionDate DateTime?
   createdAt DateTime @default(now())
   updatedAt DateTime  @updatedAt
+  work_orders work_order[]
 }
 
 model technician {
@@ -37,6 +38,7 @@ model technician {
   phone     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  work_orders work_order[]
 }
 
 model category {
@@ -59,4 +61,16 @@ model location {
   state     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model work_order {
+  id         Int      @id @default(autoincrement())
+  equipament_id Int
+  technician_id Int   @unique
+  status     String
+  priority   String
+
+  equipament equipament @relation(fields: [equipament_id], references: [id])
+  technician technician @relation(fields: [technician_id], references: [id])
+
 }
