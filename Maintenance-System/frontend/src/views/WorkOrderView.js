@@ -15,12 +15,12 @@ export class WorkOrderView {
         this.saveEquipament.addEventListener('click', (execute) => {
             execute.preventDefault();
             const description = this.description.value;
-            const equipament = this.equipament.value;
-            const technician = this.technician.value;
-            const statusOs = this.statusOs.value;
+            const equipament_id = this.equipament.value;
+            const technician_id = this.technician.value;
+            const status = this.statusOs.value;
             const priority = this.priority.value;
 
-            handler({ description, equipament, technician, statusOs, priority });
+            handler({ description, equipament_id, technician_id, status, priority });
 
         });
     }

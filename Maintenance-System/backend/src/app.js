@@ -17,6 +17,8 @@ import { requireAuth } from "./middlewares/auth.js";
 import technicianRoutes from "./routes/technicianRoutes.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
 import locationRoutes from "./routes/locationRoutes.js";
+import workOrderRoutes from "./routes/workOrderRoutes.js";
+
 
 
 
@@ -24,6 +26,7 @@ app.use("/equipament", requireAuth, equipamentRoutes);
 app.use("/technician", requireAuth, technicianRoutes);
 app.use("/category", requireAuth, categoryRoutes);
 app.use("/location", requireAuth, locationRoutes);
+app.use("/workOrder", requireAuth, workOrderRoutes);
 app.use("/client", clientRoutes);
 app.use(errorHandler);
 

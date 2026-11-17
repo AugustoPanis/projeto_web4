@@ -65,6 +65,7 @@ model location {
 
 model work_order {
   id         Int      @id @default(autoincrement())
+  description String
   equipament_id Int
   technician_id Int   @unique
   status     String

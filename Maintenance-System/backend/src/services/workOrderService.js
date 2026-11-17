@@ -35,9 +35,17 @@ const getById = async (id) => {
 };
 
 const createWorkOrder = async (data) => {
+    const equipamentId = parseId(data.equipament_id);
+
+    const technicianId = parseId(data.technician_id);
+
     await existingDescription(data.description);
     try {
-        return await workOrderRepository.create(data);
+        return await workOrderRepository.create({
+            ...data,
+            equipament_id: equipamentId,
+            technician_id: technicianId,
+        });
     } catch (error) {
         throw translateError(error);
     }
