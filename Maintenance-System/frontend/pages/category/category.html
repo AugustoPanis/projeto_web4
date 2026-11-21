@@ -19,7 +19,7 @@
                     <a class="nav-link text-white px-0" href="/equipment">Equipamentos</a>
                     <a class="nav-link text-white px-0" href="/technicians">Técnicos</a>
                     <a class="nav-link text-white px-0" href="/category">Categorias</a>
-                    <a class="nav-link text-white px-0" href="/maintanence">Ordem de serviço</a>
+                    <a class="nav-link text-white px-0" href="/work-order">Ordem de serviço</a>
                     <a class="nav-link text-white px-0" href="/location">Locais</a>
                 </nav>
                 <button id="logoutButton" type="button"
@@ -51,8 +51,7 @@
                             </div>
                             <div class="col-md-3 text-md-end">
                                 <div class="btn-group" role="group">
-                                    <button id="newEquipament" type="button" class="btn btn-success"
-                                        data-bs-toggle="modal" data-bs-target="#modalNewRegister">Novo</button>
+                                    <button id="newCategory" type="button" class="btn btn-success">Novo</button>
                                     <button id="editButton" type="button" class="btn btn-primary">Editar</button>
                                     <button id="deleteButton" type="button" class="btn btn-danger">Excluir</button>
                                 </div>
@@ -90,7 +89,7 @@
                 <div class="modal-body">
                     <form id="formNewRegister">
                         <div class="mb-3">
-                            <label for="descriptionCategory" class="form-label">Descrição da categoria</label>
+                            <label  for="descriptionCategory" class="form-label">Descrição da categoria</label>
                             <input type="text" class="form-control" id="descriptionCategory"
                                 placeholder="Digite o nome da categoria" required>
                         </div>

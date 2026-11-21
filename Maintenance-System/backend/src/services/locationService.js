@@ -2,17 +2,6 @@ import locationRepository from "../repositories/locationRepository.js";
 import { AppError } from "../errors/AppError.js";
 import { translateError } from "../errors/translateError.js";
 
-const existingLocation = async (data, id = null) => {
-    const existing = await locationRepository.existingLocation(data);
-
-    if (existing && existing.id !== id) {
-        throw new AppError("Local já cadastrada", {
-            statusCode: 409,
-            code: "DUPLICATE_LOCATION",
-        });
-    }
-};
-
 const parseId = (value) => {
     const id = Number(value);
     if (!Number.isInteger(id)) {
@@ -21,38 +10,72 @@ const parseId = (value) => {
     return id;
 };
 
+const ensureDescriptionAvailable = async (description, currentId = null) => {
+    if (!description) return;
+
+    const existing = await locationRepository.findByDescription(description);
+    if (existing && existing.id !== currentId) {
+        throw new AppError("Descrição de local já cadastrada", {
+            statusCode: 409,
+            code: "DUPLICATE_LOCATION",
+            field: "description",
+        });
+    }
+};
+
 const getById = async (id) => {
     const locationId = parseId(id);
-    const client = await locationRepository.getId(locationId);
-    if (!client) {
-        throw new AppError("Local não encontrada", {
+
+    const location = await locationRepository.getId(locationId);
+    if (!location) {
+        throw new AppError("Local não encontrado", {
             statusCode: 404,
             code: "LOCATION_NOT_FOUND",
         });
     }
-    return client;
+    return location;
 };
 
 const create = async (data) => {
-    await existingLocation(data);
-    return locationRepository.create(data);
-};
+    const description = data.description?.trim();
+    await ensureDescriptionAvailable(description);
 
-const getAll = async () => {
-  return await locationRepository.getAll();
+    try {
+        return await locationRepository.create({ ...data, description });
+    } catch (error) {
+        throw translateError(error);
+    }
+};
+const getAll = async (term) => {
+    if (term) {
+        return await locationRepository.search(term);
+    }
+    return await locationRepository.getAll();
 };
 
 const update = async (id, data) => {
     const locationId = parseId(id);
     await getById(locationId);
-    await existingLocation(data, locationId);
 
-    return locationRepository.update(locationId, data);
+    const description = data.description?.trim();
+    await ensureDescriptionAvailable(description, locationId);
+
+    try {
+        return await locationRepository.update(locationId, { ...data, description });
+    } catch (error) {
+        throw translateError(error);
+    }
 };
 
 const deleteLocation = async (id) => {
     const locationId = parseId(id);
-    return await locationRepository.deleteLocation(locationId);
+    await getById(locationId);
+
+    try {
+        return await locationRepository.deleteLocation(locationId);
+    } catch (error) {
+        throw translateError(error);
+    }
 };
 
 export default {
@@ -60,5 +83,5 @@ export default {
     getAll,
     getById,
     update,
-    deleteLocation
+    deleteLocation,
 };

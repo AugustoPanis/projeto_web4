@@ -14,6 +14,7 @@ import { navigate } from '../router/router.js';
 
 export const equipamentsController = {
   selectedId: null,
+  editingId: null,
 
   init() {
     this.Equipamentview = new EquipamentView();
@@ -26,21 +27,21 @@ export const equipamentsController = {
   },
 
   bindEvents() {
-    this.navView.bindNavClick((route) => navigate(route));
     this.Equipamentview.createEquipament((data) => this.createEquipament(data));
+    this.Equipamentview.newEquipamentButton(() => {this.editingId = null; this.modalView.openModal();});
+    this.ToolbarView.bindEditClick(() => {this.editEquipment(this.selectedId); this.editingId = this.selectedId;});
+    this.gridView.bindRowEditSelect((id) => { this.editingId = id; this.editEquipment(id); });
     this.gridView.bindRowSelect((id) => { this.selectedId = id; });
-    this.gridView.bindRowEditSelect((id) => { this.selectedId = id; this.editEquipment(id); });
-    this.ToolbarView.bindEditClick(() => this.editEquipment(this.selectedId));
-
-
-    this.ToolbarView.search((search) => this.searchEquipment(search));
     this.ToolbarView.bindDeleteClick(() => this.deleteEquipment());
+    this.ToolbarView.search((search) => this.searchEquipment(search));
     this.toLoadEquipmentsTable();
     this.toLoadLocation();
     this.toLoadCategory()
     this.modalView.bindModalReset();
     this.navView.bindlogoutClick(() => this.logout());
+    this.navView.bindNavClick((route) => navigate(route));
 
+    
   },
   async logout() {
     try {
@@ -86,7 +87,6 @@ export const equipamentsController = {
 
     try {
       const equipment = await equipmentService.getById(id);
-      this.editingId = id;
       this.Equipamentview.fillForm(equipment);
       this.modalView.setModalMode(true);
       this.modalView.openModal();
@@ -118,6 +118,7 @@ export const equipamentsController = {
       if (this.editingId) {
         await equipmentService.putEquipament(this.editingId, equipament);
         this.toast.success('Equipamento atualizado com sucesso!');
+        this.editingId = null;
       } else {
         await equipmentService.createEquipament(equipament);
         this.toast.success('Equipamento cadastrado com sucesso!');

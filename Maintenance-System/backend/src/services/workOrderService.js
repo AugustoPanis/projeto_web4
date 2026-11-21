@@ -10,16 +10,18 @@ const parseId = (value) => {
     return id;
 };
 
-const existingDescription = async (description, workOrderId = null) => {
+const existingDescription = async (description, currentId = null) => {
     const existing = await workOrderRepository.existingDescription(description);
 
-    if (existing && existing.id.toString() !== workOrderId) {
+    if (existing && existing.id !== currentId) {
         throw new AppError("Já existe uma Ordem de Serviço com essa descrição", {
             statusCode: 409,
             code: "DUPLICATE_DESCRIPTION",
+            field: "description",
         });
     }
 };
+
 
 const getById = async (id) => {
     const workOrderId = parseId(id);
@@ -35,6 +37,8 @@ const getById = async (id) => {
 };
 
 const createWorkOrder = async (data) => {
+
+    
     const equipamentId = parseId(data.equipament_id);
 
     const technicianId = parseId(data.technician_id);
@@ -47,6 +51,7 @@ const createWorkOrder = async (data) => {
             technician_id: technicianId,
         });
     } catch (error) {
+        console.log(error);
         throw translateError(error);
     }
 };
@@ -60,16 +65,22 @@ const getAll = async (term) => {
 
 const updateWorkOrder = async (id, data) => {
     const workOrderId = parseId(id);
+    await getById(workOrderId);
+
+    const payload = { ...data };
+    if (data.equipament_id !== undefined) payload.equipament_id = parseId(data.equipament_id);
+    if (data.technician_id !== undefined) payload.technician_id = parseId(data.technician_id);
 
     if (data.description) {
         await existingDescription(data.description, workOrderId);
     }
 
-    return await workOrderRepository.update(workOrderId, data);
+    return await workOrderRepository.update(workOrderId, payload);
 };
 
 const deleteWorkOrder = async (id) => {
     const workOrderId = parseId(id);
+    await getById(workOrderId);
 
     return await workOrderRepository.deleteWorkOrder(workOrderId);
 };

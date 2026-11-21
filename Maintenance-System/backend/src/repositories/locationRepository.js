@@ -10,17 +10,27 @@ export const getAll = async () => {
     return await prisma.location.findMany();
 };
 
+export const search = async (term) => {
+    console.log('Searching for locations with term:', term);
+    return await prisma.location.findMany({
+        where: term ? {
+            description: {
+                contains: term,
+                mode: 'insensitive',
+            },
+        } : {},
+    });
+}
+
 export const getId = async (id) => {
     return await prisma.location.findUnique({
         where: { id }
     });
 };
 
-export const existingLocation = async (data) => {
+export const findByDescription = async (description) => {
     return await prisma.location.findFirst({
-        where: {
-            OR: [{ cep: data.cep }, { street: data.street }, { number: data.number } ]
-        }
+        where: { description },
     });
 };
 
@@ -38,10 +48,11 @@ export const deleteLocation = async (id) => {
 };
 
 export default {
+    search,
     create,
     getAll,
     getId,
-    existingLocation,
+    findByDescription,
     update,
     deleteLocation,
 };

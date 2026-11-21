@@ -11,7 +11,14 @@ export class LocationView {
         this.state = document.getElementById('state');
         this.searchLocation = document.getElementById('searchLocation');
         this.description = document.getElementById('description');
+        this.newLocationButton = document.getElementById("newLocation");
+    }
 
+    newLocation(handler) {
+        this.newLocationButton.addEventListener('click', (execute) => {
+            execute.preventDefault();
+            handler();
+        });
     }
 
     createLocation(handler) {

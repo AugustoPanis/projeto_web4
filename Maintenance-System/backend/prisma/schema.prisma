@@ -67,7 +67,7 @@ model work_order {
   id         Int      @id @default(autoincrement())
   description String
   equipament_id Int
-  technician_id Int   @unique
+  technician_id Int 
   status     String
   priority   String
 

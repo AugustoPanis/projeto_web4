@@ -25,16 +25,17 @@ export const categoryController = {
   },
 
   bindEvents() {
-    this.navView.bindNavClick((route) => navigate(route));
-    this.navView.bindlogoutClick(() => this.logout());
     this.categoryView.createCategory((data) => this.create(data));
+    this.categoryView.newCategoryButton(() => { this.editingId = null; this.modalView.openModal(); });
+    this.gridView.bindRowEditSelect((id) => { this.editingId = id; this.edit(id); });
+    this.ToolbarView.bindEditClick(() => { this.edit(this.selectedId); this.editingId = this.selectedId; });
     this.gridView.bindRowSelect((id) => { this.selectedId = id; });
-    this.gridView.bindRowEditSelect((id) => { this.selectedId = id; this.edit(id); });
-    this.ToolbarView.bindEditClick(() => this.edit(this.selectedId));
     this.ToolbarView.bindDeleteClick(() => this.delete());
     this.ToolbarView.search((search) => this.searchCategory(search));
     this.toLoadCategoryTable();
     this.modalView.bindModalReset();
+    this.navView.bindNavClick((route) => navigate(route));
+    this.navView.bindlogoutClick(() => this.logout());
 
   },
   async logout() {
@@ -42,7 +43,7 @@ export const categoryController = {
       await authService.logout();
       navigate('/login', true);
     } catch (err) {
-            this.toast.error(getFriendlyErrorMessage(err.code));
+      this.toast.error(getFriendlyErrorMessage(err.code));
     }
   },
 
@@ -89,12 +90,13 @@ export const categoryController = {
     }
   },
 
-  async create(category) {    
+  async create(category) {
     try {
       if (this.editingId) {
         await categoryService.put(this.editingId, category);
         this.toast.success('Categoria atualizada com sucesso!');
-      } else {        
+        this.editingId = null;
+      } else {
         await categoryService.post(category);
         this.toast.success('Categoria cadastrada com sucesso!');
       }

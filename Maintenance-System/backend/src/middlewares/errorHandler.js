@@ -9,7 +9,7 @@ export function errorHandler(err, req, res, next) {
     });
   }
 
-  console.error(err);
+console.log(err.code, err.meta);
 
   return res.status(500).json({
     code: "INTERNAL_ERROR",

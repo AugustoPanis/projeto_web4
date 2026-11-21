@@ -26,17 +26,18 @@ export const locationController = {
   },
 
   bindEvents() {
-    this.navView.bindNavClick((route) => navigate(route));
-    this.navView.bindlogoutClick(() => this.logout());
     this.locationView.createLocation((data) => this.create(data));
+    this.locationView.newLocation(() => { this.editingId = null; this.modalView.openModal(); });
+    this.ToolbarView.bindEditClick(() => {this.edit(this.selectedId); this.editingId = this.selectedId;});
+    this.gridView.bindRowEditSelect((id) => { this.editingId = id; this.edit(id); });
     this.gridView.bindRowSelect((id) => { this.selectedId = id; });
-    this.gridView.bindRowEditSelect((id) => { this.selectedId = id; this.edit(id); });
-    this.ToolbarView.bindEditClick(() => this.edit(this.selectedId));
     this.ToolbarView.bindDeleteClick(() => this.delete());
     this.ToolbarView.search((search) => this.searchLocation(search));
     this.locationView.searchLocationForCep((cep) => this.searchLocationForCep(cep));
     this.toLoadLocationTable();
     this.modalView.bindModalReset();
+    this.navView.bindNavClick((route) => navigate(route));
+    this.navView.bindlogoutClick(() => this.logout());
 
   },
   async logout() {

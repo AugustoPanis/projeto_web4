@@ -5,7 +5,14 @@ export class TechniciansView {
         this.email = document.getElementById('email');
         this.specialty = document.getElementById('specialty');
         this.phone = document.getElementById('phone');
-        this.saveTecnician = document.getElementById('save');    
+        this.saveTecnician = document.getElementById('save');
+        this.newTecnicianButton = document.getElementById('newTecnician');
+    }
+    newTechnicianButton(handler) {
+        this.newTecnicianButton.addEventListener('click', (execute) => {
+            execute.preventDefault();
+            handler();
+        });
     }
 
     createTechnician(handler) {

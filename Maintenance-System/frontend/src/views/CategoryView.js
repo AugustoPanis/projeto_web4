@@ -6,10 +6,17 @@ export class CategoryView {
         this.descriptionCategory = document.getElementById('descriptionCategory');
         this.weight = document.getElementById('weight');
         this.height = document.getElementById('height');
+        this.newCategory = document.getElementById('newCategory');
     }
 
+    newCategoryButton(handler) {
+        this.newCategory.addEventListener('click', (execute) => {
+            execute.preventDefault();
+            handler();
+        });
+    }
     createCategory(handler) {
-        this.saveEquipament.addEventListener('click', (execute) => {
+        this.saveEquipament.addEventListener('submit', (execute) => {
             execute.preventDefault();
             const descriptionCategory = this.descriptionCategory.value;
             const weight = this.weight.value;

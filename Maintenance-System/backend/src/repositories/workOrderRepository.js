@@ -16,10 +16,10 @@ export const getById = async (id) => {
     });
 };
 
-export const existingDescription = async (data) => {
+export const existingDescription = async (description) => {
     return await prisma.work_order.findFirst({
         where: {
-            description: data.description
+            description
         }
     });
 };

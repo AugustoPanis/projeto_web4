@@ -8,7 +8,14 @@ export class WorkOrderView {
         this.technician = document.getElementById("technician");
         this.statusOs = document.getElementById("statusOs");
         this.priority = document.getElementById("priority");
+        this.newWorkOrder = document.getElementById("newWorkOrder");
 
+    }
+    newWorkOrderButton(handler) {
+        this.newWorkOrder.addEventListener('click', (execute) => {
+            execute.preventDefault();
+            handler();
+        });
     }
 
     createWorkOrder(handler) {
@@ -33,9 +40,9 @@ export class WorkOrderView {
             row.dataset.id = workOrder.id;
             row.innerHTML = `
                 <td>${workOrder.description}</td>
-                <td>${workOrder.equipament}</td>
-                <td>${workOrder.technician}</td>
-                <td>${workOrder.statusOs}</td>
+                <td>${workOrder.equipament_id}</td>
+                <td>${workOrder.technician_id}</td>
+                <td>${workOrder.status}</td>
                 <td>${workOrder.priority}</td>
             `;
             this.table.appendChild(row);
@@ -43,7 +50,6 @@ export class WorkOrderView {
     }
 
     toLoadTechnicianForm(technician) {
-
         technician.forEach((technician) => {
             const option = document.createElement('option');
             option.value = technician.id;
@@ -66,14 +72,10 @@ export class WorkOrderView {
 
     fillForm(workOrder) {
         this.description.value = workOrder.description;
-        this.equipament.value = workOrder.equipament;
-        this.technician.value = workOrder.technician;
-        this.statusOs.value = workOrder.statusOs;
+        this.technician.value = workOrder.technician_id;
+        this.equipament.value = workOrder.equipament_id;
+        this.statusOs.value = workOrder.status;
         this.priority.value = workOrder.priority;
-    }
-
-    fillFormEquipament(workOrder) {
-        this.equipament.value = workOrder.equipament;
     }
 
 }

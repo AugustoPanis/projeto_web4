@@ -12,6 +12,7 @@ import { navigate } from '../router/router.js';
 
 export const techniciansController = {
   editingId: null,
+  selectedId: null,
   init() {
     this.techniciansView = new TechniciansView();
     this.toast = new ToastView();
@@ -24,11 +25,12 @@ export const techniciansController = {
 
   bindEvents() {
     this.techniciansView.createTechnician((technician) => this.createTechnician(technician));
+    this.techniciansView.newTechnicianButton(() => {this.editingId = null; this.modalView.openModal();});
     this.gridView.bindRowEditSelect((id) => { this.editingId = id; this.editTechnician(id); });
-    this.toolbarView.bindEditClick(() => this.editTechnician(this.editingId));
+    this.toolbarView.bindEditClick(() => {this.editTechnician(this.selectedId); this.editingId = this.selectedId;});
+    this.gridView.bindRowSelect((id) => { this.selectedId = id; });
+    this.toolbarView.bindDeleteClick(() => this.deleteTechnician(this.selectedId));
     this.toolbarView.search((search) => this.searchTecnicians(search));
-    this.toolbarView.bindDeleteClick(() => this.deleteTechnician(this.editingId));
-    this.gridView.bindRowSelect((id) => { this.editingId = id; });
     this.navView.bindNavClick((route) => navigate(route));
     this.navView.bindlogoutClick(() => this.logout());
     this.toLoadTechniciansTable();
@@ -65,6 +67,7 @@ export const techniciansController = {
       if (this.editingId) {
         await technicianService.putTecnician(this.editingId, technician);
         this.toast.success('Técnico atualizado com sucesso!');
+        this.editingId = null;
       } else {
         await technicianService.createTechnician(technician);
         this.toast.success('Técnico criado com sucesso!');

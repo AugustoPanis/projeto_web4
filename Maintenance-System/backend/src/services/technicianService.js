@@ -10,31 +10,34 @@ const parseId = (value) => {
     return id;
 };
 
-const existingTechnician = async (data) => {
-    const existing = await technicianRepository.findByEmail(data.email);
-    if (existing) {
-        throw new AppError("e-mail já cadastrado", {
+const ensureEmailAvailable = async (email, currentId = null) => {
+    if (!email) return;
+
+    const existing = await technicianRepository.findByEmail(email);
+    if (existing && existing.id !== currentId) {
+        throw new AppError("E-mail já cadastrado", {
             statusCode: 409,
-            code: "DUPLICATE_CPF_OR_EMAIL",
+            code: "EMAIL_ALREADY_IN_USE",
+            field: "email",
         });
     }
 };
 
 const getTechnicianById = async (id) => {
-    const equipamentId = parseId(id);
+    const technicianId = parseId(id);
 
-    const technician = await technicianRepository.getId(equipamentId);
+    const technician = await technicianRepository.getId(technicianId);
     if (!technician) {
-        throw new AppError("Técnico  não encontrado", {
+        throw new AppError("Técnico não encontrado", {
             statusCode: 404,
-            code: "CLIENT_NOT_FOUND",
+            code: "TECHNICIAN_NOT_FOUND",
         });
     }
     return technician;
 };
 
 const createTechnician = async (data) => {
-    await existingTechnician(data);
+    await ensureEmailAvailable(data.email);
     try {
         return await technicianRepository.create(data);
     } catch (error) {
@@ -50,26 +53,28 @@ const getAll = async (term) => {
 };
 
 const updateTechnician = async (id, data) => {
-    const equipamentId = parseId(id);
+    const technicianId = parseId(id);
 
-    if (data.email) {
-        const emailExistente = await technicianRepository.findByEmail(data.email);
-        if (emailExistente && emailExistente._id?.toString() !== equipamentId ) {
-            throw new AppError("E-mail já cadastrado", {
-                statusCode: 409,
-                code: "EMAIL_ALREADY_IN_USE",
-                field: "email",
-            });
-        }
+    await getTechnicianById(technicianId);
+    await ensureEmailAvailable(data.email, technicianId);
+
+    try {
+        return await technicianRepository.update(technicianId, data);
+    } catch (error) {
+        throw translateError(error);
     }
-
-    return await technicianRepository.update(equipamentId, data);
 };
 
 const deleteTechnician = async (id) => {
-    const equipamentId = parseId(id);
+    const technicianId = parseId(id);
 
-    return await technicianRepository.deleteTechnician(equipamentId);
+    await getTechnicianById(technicianId);
+
+    try {
+        return await technicianRepository.deleteTechnician(technicianId);
+    } catch (error) {
+        throw translateError(error);
+    }
 };
 
 export default {
@@ -77,5 +82,5 @@ export default {
     createTechnician,
     getAll,
     updateTechnician,
-    deleteTechnician
+    deleteTechnician,
 };

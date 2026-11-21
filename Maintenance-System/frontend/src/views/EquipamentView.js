@@ -10,6 +10,15 @@ export class EquipamentView {
         this.patrymony = document.getElementById('patrymony');
         this.loadLocation = document.getElementById('locationEquipment');
         this.loadCategory = document.getElementById('categoryEquipment');
+        this.newEquipament = document.getElementById('newEquipament');
+
+    }
+
+    newEquipamentButton(handler) {
+        this.newEquipament.addEventListener('click', (execute) => {
+            execute.preventDefault();
+            handler();
+        });
     }
 
     createEquipament(handler) {
@@ -69,6 +78,7 @@ export class EquipamentView {
         this.locationEquipment.value = equipment.local;
         this.dateAcquisition.value = equipment.acquisitionDate
             ? equipment.acquisitionDate.slice(0, 10) : '';;
+        this.loadCategory.value = equipment.category;
     }
 
 }

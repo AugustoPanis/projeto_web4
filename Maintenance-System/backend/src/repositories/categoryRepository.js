@@ -9,6 +9,16 @@ export const create = async (data) => {
 export const getAll = async () => {
     return await prisma.category.findMany();
 };
+export const search = async (term) => {
+    return await prisma.category.findMany({
+        where: term ? {
+            descriptionCategory: {
+                contains: term,
+                mode: 'insensitive',
+            },
+        } : {},
+    });
+}
 
 export const getId = async (id) => {
     return await prisma.category.findUnique({
@@ -16,11 +26,11 @@ export const getId = async (id) => {
     });
 };
 
-export const existingCategory = async (data) => {
+export const findByDescription = async (descriptionCategory) => {
     return await prisma.category.findFirst({
         where: {
-            OR: [{ descriptionCategory: data.descriptionCategory }, { weight: data.weight }, { height: data.height } ]
-        }
+            descriptionCategory:    { equals: descriptionCategory, mode: 'insensitive' },
+        },
     });
 };
 
@@ -38,10 +48,11 @@ export const deleteCategory = async (id) => {
 };
 
 export default {
+    search,
     create,
     getAll,
     getId,
-    existingCategory,
+    findByDescription,
     update,
     deleteCategory,
 };

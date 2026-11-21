@@ -12,9 +12,6 @@ import { authService } from '../services/authService.js';
 import { equipmentService } from '../services/equipmentService.js';
 import { technicianService } from '../services/technicianService.js';
 
-
-
-
 export const workOrderController = {
   selectedId: null,
   editingId: null,
@@ -30,19 +27,19 @@ export const workOrderController = {
   },
 
   bindEvents() {
-    this.navView.bindNavClick((route) => navigate(route));
-    this.navView.bindlogoutClick(() => this.logout());
     this.workOrderView.createWorkOrder((data) => this.create(data));
+    this.workOrderView.newWorkOrderButton(() => {this.editingId = null; this.modalView.openModal();});
+    this.toolbarView.bindEditClick(() => {this.edit(this.selectedId); this.editingId = this.selectedId;});
+    this.gridView.bindRowEditSelect((id) => { this.editingId = id; this.edit(id); });
     this.gridView.bindRowSelect((id) => { this.selectedId = id; });
-    this.gridView.bindRowEditSelect((id) => { this.selectedId = id; this.edit(id); });
-    this.toolbarView.bindEditClick(() => this.edit(this.selectedId));
     this.toolbarView.bindDeleteClick(() => this.delete());
     this.toolbarView.search((search) => this.searchWorkOrder(search));
-    this.toLoadWorkOrderTable();
     this.modalView.bindModalReset();
+    this.toLoadWorkOrderTable();
     this.toLoadEquipamentForm();
     this.toLoadTechnicianForm();
-
+    this.navView.bindNavClick((route) => navigate(route));
+    this.navView.bindlogoutClick(() => this.logout());
   },
 
   async toLoadEquipamentForm() {
@@ -72,10 +69,10 @@ export const workOrderController = {
     }
   },
 
-  async searchWorkOrder(cep) {
+  async searchWorkOrder(search) {
     try {
-      const location = await viaCepService.searchLocation(cep);
-      this.workOrderView.fillForm(location);
+      const workOrder = await workOrderService.searchWorkOrder(search);
+      this.workOrderView.toLoadWorkOrderTable(workOrder);
     } catch (err) {
       this.toast.error(getFriendlyErrorMessage(err.code));
     }
@@ -120,6 +117,7 @@ export const workOrderController = {
       if (this.editingId) {
         await workOrderService.put(this.editingId, location);
         this.toast.success('Ordem de serviço atualizada com sucesso!');
+        this.editingId = null;
       } else {
         await workOrderService.create(location);
         this.toast.success('Ordem de serviço cadastrada com sucesso!');
@@ -134,6 +132,12 @@ export const workOrderController = {
   async toLoadWorkOrderTable() {
     try {
       const workOrders = await workOrderService.getAll();
+      for (const workOrder of workOrders) {
+        const equipament = await equipmentService.getById(workOrder.equipament_id);
+        const technician = await technicianService.getById(workOrder.technician_id);
+        workOrder.equipament_id = equipament.name;
+        workOrder.technician_id = technician.name;
+      }
       this.workOrderView.toLoadWorkOrderTable(workOrders);
     } catch (err) {
       this.toast.error(getFriendlyErrorMessage(err.code));
