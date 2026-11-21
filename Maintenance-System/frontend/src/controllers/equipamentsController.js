@@ -114,6 +114,7 @@ export const equipamentsController = {
   },
 
   async createEquipament(equipament) {
+    if (!this.modalView.isFormValid()) return;
     try {
       if (this.editingId) {
         await equipmentService.putEquipament(this.editingId, equipament);

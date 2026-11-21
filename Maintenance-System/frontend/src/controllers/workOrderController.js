@@ -113,6 +113,7 @@ export const workOrderController = {
   },
 
   async create(location) {
+    if (!this.modalView.isFormValid()) return;
     try {
       if (this.editingId) {
         await workOrderService.put(this.editingId, location);

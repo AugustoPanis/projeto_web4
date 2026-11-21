@@ -14,6 +14,17 @@ export class ModalView {
         this.height = document.getElementById('height');
     }
 
+    isFormValid() {
+        const fields = this.modalEl.querySelectorAll('[required]');
+        for (const field of fields) {
+            if (!field.checkValidity()) {
+                field.reportValidity();
+                return false;
+            }
+        }
+        return true;
+    }
+
     bindModalReset(onClose) {
         this.modalEl.addEventListener('hide.bs.modal', () => {
             document.activeElement?.blur();

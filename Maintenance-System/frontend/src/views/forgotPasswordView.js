@@ -1,5 +1,6 @@
 export class ForgotPasswordView {
   constructor() {
+    this.form = document.getElementById('login-form');
     this.emailInput = document.getElementById('email');
     this.btnForgotPassword = document.getElementById('btn-forgotPassword');
     this.btnSingIn = document.getElementById('btn-signIn');
@@ -18,6 +19,11 @@ export class ForgotPasswordView {
     this.btnForgotPassword.addEventListener('click', (execute) => {
       execute.preventDefault();
       this.clearError();
+
+      if (!this.form.checkValidity()) {
+        this.form.reportValidity();
+        return;
+      }
 
       const email = this.emailInput.value.trim();
 

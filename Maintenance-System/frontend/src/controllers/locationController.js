@@ -104,6 +104,7 @@ export const locationController = {
   },
 
   async create(location) {
+    if (!this.modalView.isFormValid()) return;
     try {
       if (this.editingId) {
         await locationService.put(this.editingId, location);

@@ -63,6 +63,7 @@ export const techniciansController = {
   },
 
   async createTechnician(technician) {
+    if (!this.modalView.isFormValid()) return;
     try {
       if (this.editingId) {
         await technicianService.putTecnician(this.editingId, technician);

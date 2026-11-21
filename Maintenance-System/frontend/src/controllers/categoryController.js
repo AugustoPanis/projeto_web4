@@ -91,6 +91,7 @@ export const categoryController = {
   },
 
   async create(category) {
+    if (!this.modalView.isFormValid()) return;
     try {
       if (this.editingId) {
         await categoryService.put(this.editingId, category);

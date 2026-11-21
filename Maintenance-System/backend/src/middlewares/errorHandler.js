@@ -8,9 +8,7 @@ export function errorHandler(err, req, res, next) {
       field: err.field,
     });
   }
-
-console.log(err.code, err.meta);
-
+  
   return res.status(500).json({
     code: "INTERNAL_ERROR",
     message: "Erro interno do servidor",

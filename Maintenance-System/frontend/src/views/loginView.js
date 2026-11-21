@@ -1,5 +1,6 @@
 export class LoginView {
   constructor() {
+    this.form = document.getElementById('login-form');
     this.emailInput = document.getElementById('email');
     this.passwordInput = document.getElementById('password');
     this.errorEl = document.getElementById('error-message');
@@ -26,6 +27,11 @@ export class LoginView {
     this.btnSingIn.addEventListener('click', (execute) => {
       execute.preventDefault();
       this.clearError();
+
+      if (!this.form.checkValidity()) {
+        this.form.reportValidity();
+        return;
+      }
 
       const email = this.emailInput.value.trim();
       const password = this.passwordInput.value;

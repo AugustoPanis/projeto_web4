@@ -43,3 +43,70 @@
   .toast-custom.success {
     background: #198754;
   }
+
+  @media (max-width: 767.98px) {
+    .container-fluid > .row > aside {
+      width: 100% !important;
+      min-height: auto !important;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .container-fluid > .row > aside > h4 {
+      margin-bottom: 0 !important;
+      margin-right: 0.5rem;
+    }
+
+    .container-fluid > .row > aside .nav {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 0.25rem 0.75rem;
+    }
+
+    .container-fluid > .row > aside .nav-link {
+      padding-right: 0 !important;
+      padding-top: 0.15rem;
+      padding-bottom: 0.15rem;
+    }
+
+    .container-fluid > .row > aside > button {
+      margin-top: 0 !important;
+      margin-left: auto;
+    }
+
+    main.col {
+      padding: 1rem !important;
+    }
+
+    main .btn-group {
+      display: flex;
+      width: 100%;
+    }
+
+    main .btn-group > .btn {
+      flex: 1 1 0;
+    }
+
+    .modal-footer {
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .modal-footer > .btn {
+      flex: 1 1 0;
+    }
+
+    .toast-container-custom {
+      left: 0.75rem;
+      right: 0.75rem;
+      bottom: 0.75rem;
+    }
+
+    .toast-custom {
+      min-width: 0;
+      max-width: 100%;
+      width: 100%;
+    }
+  }
