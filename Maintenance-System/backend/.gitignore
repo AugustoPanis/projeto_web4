@@ -20,3 +20,5 @@ node_modules/
 firebaseServiceAccount.json
 *firebaseServiceAccount.json
 .env
+
+src/configfirebaseServiceAccount.json
