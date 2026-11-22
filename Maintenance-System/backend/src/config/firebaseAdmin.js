@@ -3,7 +3,7 @@ import { getAuth } from 'firebase-admin/auth';
 import { readFileSync } from 'fs';
 
 const serviceAccount = JSON.parse(
-  readFileSync(new URL('./firebaseServiceAccount.json', import.meta.url))
+    readFileSync('/etc/secrets/firebaseServiceAccount.json', 'utf-8')
 );
 
 if (!getApps().length) {
